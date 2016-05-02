@@ -1,0 +1,1157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>机票</title>
+<script type="text/javascript"src="js/autocomplete.js"></script>
+<script type="text/javascript"src="js/scripts.js?v=1"></script>
+<script type="text/javascript">
+/*$(function(){
+			
+			$('select#Air_cmbNoOfInfants').selectmenu({style:'dropdown',maxHeight: 150});
+			$('select#Air_cmbNoOfChildren').selectmenu({style:'dropdown',maxHeight: 150});
+			$('select#Air_cmbNoOfAdults').selectmenu({style:'dropdown',maxHeight: 150});
+			$('select#Air_RetTime_a').selectmenu({style:'dropdown',maxHeight: 150});
+			$('select#Air_DepTime_a').selectmenu({style:'dropdown',maxHeight: 150});
+			$('select#F_Country').selectmenu({style:'dropdown',maxHeight: 150});
+		   });
+
+var addressFormatting = function(text){
+			var newText = text;
+			//array of find replaces
+			var findreps = [
+				{find:/^([^\-]+) \- /g, rep: '<span class="ui-selectmenu-item-header">$1</span>'},
+				{find:/([^\|><]+) \| /g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
+				{find:/([^\|><\(\)]+) (\()/g, rep: '<span class="ui-selectmenu-item-content">$1</span>$2'},
+				{find:/([^\|><\(\)]+)$/g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
+				{find:/(\([^\|><]+\))$/g, rep: '<span class="ui-selectmenu-item-footer">$1</span>'}
+			];
+			
+			for(var i in findreps){
+				newText = newText.replace(findreps[i].find, findreps[i].rep);
+			}
+			return newText;
+		}	*/	   
+		   
+var DatePicked = function() {
+		 
+		 		var departure = $("#air_departure_temp");
+		 		var arrival = $("#air_arrival_temp");
+				var nights = $("#air_nights");
+				var triggeringElement = $(this);
+				var minArrivalDate = new Date();
+								
+				var departureDate= departure.datepicker("getDate") ;	
+				
+				if (departureDate != null) {						
+					departureDate.setDate(departureDate.getDate() + 1);		
+					arrival.datepicker('option', 'minDate',departureDate);	
+				} else {
+					minArrivalDate.setDate(minArrivalDate.getDate() +3);
+					var month = minArrivalDate.getMonth() + 1;
+					month = ((""+String(month).length ==1) ? ("0"+month) : month);
+   					var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+					arrival.val(todDate);
+						 
+				    var myDate = new Date();
+				    myDate.setDate(myDate.getDate() +2);
+  					var month = myDate.getMonth() + 1;
+  					month = ((""+String(month).length ==1) ? ("0"+month) : month);
+   					var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+  					departure.val(todDates);
+										
+				}						
+									
+				var arrivalDate = arrival.datepicker("getDate");			
+			   
+				if (departureDate != null && arrivalDate != null && triggeringElement.attr("id") != "air_nights") {
+						
+					var oneDay = 1000*60*60*24;
+                    var arDateVal = Date.UTC(arrivalDate.getFullYear(),arrivalDate.getMonth(),arrivalDate.getDate(),0,0,0);
+                    var depDateVal = Date.UTC(departureDate.getFullYear(),departureDate.getMonth(),departureDate.getDate(),0,0,0);
+                    var difference = Math.ceil(((arDateVal - depDateVal) / oneDay)+1);
+                    nights.val(difference);  
+					  
+					if (difference>30) {
+						//$( "#dialogs" ).dialog({ resizable: false,modal: true });
+						nights.val("1");
+						var newArrivalDate = new Date();
+                      	arrival.datepicker("setDate", newArrivalDate);
+					}	
+					$("#air_departure").val(getOriginalDateFormat(departure.datepicker("getDate")));
+			        $("#air_arrival").val(getOriginalDateFormat(arrival.datepicker("getDate")));	
+						
+                } else if (departureDate != null && arrivalDate != null &&  triggeringElement.attr("id") == "air_nights") {
+                    var nightsEntered = parseInt(nights.val());
+					
+                    if (nightsEntered <= 30 ) {
+						minArrivalDate.setDate(minArrivalDate.getDate() +nightsEntered + 1);
+						arrival.datepicker("setDate", minArrivalDate);	
+					} 
+					/*else {
+                    
+						$( "#dialogs" ).dialog({ resizable: false,modal: true });
+						nights.val("1");
+                 	}*/
+                    $("#air_departure").val(getOriginalDateFormat(departure.datepicker("getDate")));
+			        $("#air_arrival").val(getOriginalDateFormat(arrival.datepicker("getDate")));
+                }	
+				
+				/**for multi destination*/					
+				if($("#trip_type").val() == 'M'){
+					DatePickedTwo();					
+				}
+        }
+		
+	 var DatePickedTwo = function() {
+		var departure = $("#air_departure_temp");	
+		var departure_2 = $("#air_departure_2_temp");
+		
+		var departureDate = departure.datepicker("getDate");
+		var departureDate_2 = departure_2.datepicker("getDate");
+		
+
+		if(null !=  departureDate && null != departureDate_2 ){
+			if(departureDate.getTime() > departureDate_2.getTime()){			
+				departureDate_2 = departure.datepicker("getDate");
+				if (departureDate_2 != null) {						
+					departureDate_2.setDate(departureDate_2.getDate() + 1);						
+				}
+			}else{
+				departureDate_2 = departure_2.datepicker("getDate");
+			}				
+		}
+		departure_2.datepicker( "setDate", departureDate_2);
+		departure_2.datepicker('option', 'minDate', departure.datepicker("getDate"));
+		
+		$("#air_departure_2_temp").val(getDateFormat($("#air_departure_2_temp").datepicker("getDate")));
+		$("#air_departure_2").val(getOriginalDateFormat($("#air_departure_2_temp").datepicker("getDate")));
+		DatePickedThree();	
+	}
+
+	var DatePickedThree = function () {
+		var departure_2 = $("#air_departure_2_temp");
+		var departure_3 = $("#air_departure_3_temp");
+		
+		var departureDate_2 = departure_2.datepicker("getDate");
+		var departureDate_3 = departure_3.datepicker("getDate");
+		
+		if(null !=  departureDate_2 && null != departureDate_3 ){
+			if(departureDate_2.getTime() > departureDate_3.getTime()){			
+				departureDate_3 = departure_2.datepicker("getDate");
+				if (departureDate_3 != null) {						
+					departureDate_3.setDate(departureDate_3.getDate() + 1);						
+				}
+			}else{
+				departureDate_3 = departure_3.datepicker("getDate");
+			}			
+		}
+		departure_3.datepicker( "setDate", departureDate_3);
+		departure_3.datepicker('option', 'minDate', departure_2.datepicker("getDate"));
+		
+		$("#air_departure_3_temp").val(getDateFormat($("#air_departure_3_temp").datepicker("getDate")));
+		$("#air_departure_3").val(getOriginalDateFormat($("#air_departure_3_temp").datepicker("getDate")));
+		DatePickedFour();
+	}
+
+	var DatePickedFour = function() {
+		var departure_3 = $("#air_departure_3_temp");
+		var departure_4 = $("#air_departure_4_temp");
+		
+		var departureDate_3 = departure_3.datepicker("getDate");
+		var departureDate_4 = departure_4.datepicker("getDate");
+		
+		if(null !=  departureDate_3 && null != departureDate_4 ){
+			if(departureDate_3.getTime() > departureDate_4.getTime()){			
+				departureDate_4 = departure_3.datepicker("getDate");
+				if (departureDate_4 != null) {						
+					departureDate_4.setDate(departureDate_4.getDate() + 1);						
+				}
+			}else{
+				departureDate_4 = departure_4.datepicker("getDate");
+			}
+		}
+		departure_4.datepicker( "setDate", departureDate_4);
+		departure_4.datepicker('option', 'minDate',departure_3.datepicker("getDate"));	
+		$("#air_departure_4_temp").val(getDateFormat($("#air_departure_4_temp").datepicker("getDate")));
+		$("#air_departure_4").val(getOriginalDateFormat($("#air_departure_4_temp").datepicker("getDate")));
+		DatePickedFive();		
+	}
+
+	var DatePickedFive = function() {
+		var departure_4 = $("#air_departure_4_temp");
+		var departure_5 = $("#air_departure_5_temp");
+	
+		var departureDate_4 = departure_4.datepicker("getDate");
+		var departureDate_5 = departure_5.datepicker("getDate");
+		
+		if(null !=  departureDate_4 && null != departureDate_5 ){
+			if(departureDate_4.getTime() > departureDate_5.getTime()){			
+				departureDate_5 = departure_4.datepicker("getDate");
+				if (departureDate_5 != null) {						
+					departureDate_5.setDate(departureDate_5.getDate() + 1);						
+				}
+			}else{
+				departureDate_5 = departure_5.datepicker("getDate");
+			}
+		}
+		departure_5.datepicker( "setDate", departureDate_5);
+		departure_5.datepicker('option', 'minDate',departure_4.datepicker("getDate"));	
+		$("#air_departure_5_temp").val(getDateFormat($("#air_departure_5_temp").datepicker("getDate")));
+		$("#air_departure_5").val(getOriginalDateFormat($("#air_departure_5_temp").datepicker("getDate")));
+	}
+ 
+		$(function() {
+				$("#air_arrival_temp").datepicker({
+					dateFormat: dateFormatKey,	
+					defaultDate: +3,
+					onSelect: DatePicked,
+					showAnim:'slide',
+					minDate: '3d'
+				});
+				$("#air_departure_temp").datepicker({
+					dateFormat: dateFormatKey,
+					defaultDate: +2,
+					onSelect: DatePicked,
+					showAnim:'slide',
+					minDate: '2d'
+				});
+				$("#air_departure_temp").datepicker('option', 'minDate', '+2d');	
+	           	$("#air_arrival_temp").datepicker('option', 'minDate','+3d');
+				$("#air_nights").change(DatePicked);
+				DatePicked();
+		});
+ 
+		$("#air_departure_temp").val(getDateFormat($("#air_departure_temp").datepicker("getDate")));
+		$("#air_departure").val(getOriginalDateFormat($("#air_departure_temp").datepicker("getDate")));
+        $("#air_arrival_temp").val(getDateFormat($("#air_arrival_temp").datepicker("getDate")));
+        $("#air_arrival").val(getOriginalDateFormat($("#air_arrival_temp").datepicker("getDate")));
+ 		 
+			
+			
+           	
+			//Multi date 2			
+			var departure = $("#air_departure_2_temp");
+            var arrival = $("#air_arrival_2_temp");
+			var nights = $("#air_nights_2");
+			var triggeringElement = $(this);
+			var minArrivalDate = new Date();
+							
+			var departureDate= departure.datepicker("getDate") ;				
+			
+			if (departureDate != null) {					
+				departureDate.setDate(departureDate.getDate() + 1);
+										
+			} else {                       
+				minArrivalDate.setDate(minArrivalDate.getDate() +2);					
+				var month = minArrivalDate.getMonth() + 1;
+				month = ((""+String(month).length ==1) ? ("0"+month) : month);
+  				var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+				arrival.val(todDate);
+					 
+			    var myDate = new Date();
+
+
+ 				var month = myDate.getMonth() + 1;
+  				var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+ 				departure.val(todDates);
+								
+			}
+ 		$(function () {
+				$("#air_departure_2_temp").datepicker({
+				dateFormat: dateFormatKey,	
+				defaultDate: +3,
+				onSelect: DatePicked,
+				showAnim:'slide',
+				minDate: '2d'
+				});
+				
+				$("#air_departure_2_temp").change(DatePickedThree);							
+           });
+ 		
+	 		$("#air_departure_temp").val(getDateFormat($("#air_departure_temp").datepicker("getDate")));
+			$("#air_departure").val(getOriginalDateFormat($("#air_departure_temp").datepicker("getDate")));
+	        $("#air_arrival_temp").val(getDateFormat($("#air_arrival_temp").datepicker("getDate")));
+	        $("#air_arrival").val(getOriginalDateFormat($("#air_arrival_temp").datepicker("getDate")));
+ 			
+ 			$("#air_departure_2_temp").datepicker( "setDate", '+3d');
+			$("#air_departure_2_temp").datepicker('option', 'minDate', '+2d');	
+			
+			//Multi date 3			
+			var departure = $("#air_departure_3_temp");
+            var arrival = $("#air_arrival_3_temp");
+			var nights = $("#air_nights_3");
+			var triggeringElement = $(this);
+			var minArrivalDate = new Date();
+								
+			var departureDate= departure.datepicker("getDate") ;				
+				
+			if (departureDate != null) {						
+				departureDate.setDate(departureDate.getDate() + 1);				
+			} else {
+				minArrivalDate.setDate(minArrivalDate.getDate() +2);						
+				var month = minArrivalDate.getMonth() + 1;
+				month = ((""+String(month).length ==1) ? ("0"+month) : month);
+  				var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+				arrival.val(todDate);
+					 
+			    var myDate = new Date();
+ 				var month = myDate.getMonth() + 1;
+  				var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+ 				departure.val(todDates);
+										
+			}
+ 		$(function () {
+				$("#air_departure_3_temp").datepicker({
+				dateFormat: dateFormatKey,	
+				defaultDate: +4,
+				onSelect: DatePicked,
+				showAnim:'slide',
+				minDate: '3d'
+				});	
+				
+				$("#air_departure_3_temp").change(DatePickedFour);				
+				
+         });
+ 			$("#air_departure_3_temp").datepicker( "setDate", '+4d');
+			$("#air_departure_3_temp").datepicker('option', 'minDate', '+3d');
+			$("#air_departure_temp").val(getDateFormat($("#air_departure_temp").datepicker("getDate")));
+			$("#air_departure").val(getOriginalDateFormat($("#air_departure_temp").datepicker("getDate")));
+	        $("#air_arrival_temp").val(getDateFormat($("#air_arrival_temp").datepicker("getDate")));
+	        $("#air_arrival").val(getOriginalDateFormat($("#air_arrival_temp").datepicker("getDate")));
+			
+			//Multi date 4			
+			var departure = $("#air_departure_4_temp");
+            var arrival = $("#air_arrival_4_temp");
+			var nights = $("#air_nights_4");
+			var triggeringElement = $(this);
+			var minArrivalDate = new Date();								
+			var departureDate= departure.datepicker("getDate") ;				
+				
+			if (departureDate != null) {						
+				departureDate.setDate(departureDate.getDate() + 1);
+												
+			} else {                        
+				minArrivalDate.setDate(minArrivalDate.getDate() +2);						
+				var month = minArrivalDate.getMonth() + 1;
+  				var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+				arrival.val(todDate);
+					 
+			    var myDate = new Date();
+ 				var month = myDate.getMonth() + 1;
+  				var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+ 				departure.val(todDates);
+										
+			}
+ 		$(function () {
+				$("#air_departure_4_temp").datepicker({
+				dateFormat: dateFormatKey,	
+				defaultDate: +5,
+				onSelect: DatePicked,
+				showAnim:'slide',
+				minDate: '4d'
+				});				
+				$("#air_departure_4_temp").change(DatePickedFive);				
+         });
+ 			$("#air_departure_4_temp").datepicker( "setDate", '+5d');
+			$("#air_departure_4_temp").datepicker('option', 'minDate', '+4d');
+			$("#air_departure_temp").val(getDateFormat($("#air_departure_temp").datepicker("getDate")));
+			$("#air_departure").val(getOriginalDateFormat($("#air_departure_temp").datepicker("getDate")));
+	        $("#air_arrival_temp").val(getDateFormat($("#air_arrival_temp").datepicker("getDate")));
+	        $("#air_arrival").val(getOriginalDateFormat($("#air_arrival_temp").datepicker("getDate")));
+			//Multi date 5
+			
+			var departure = $("#air_departure_5_temp");
+            var arrival = $("#air_arrival_5_temp");
+			var nights = $("#air_nights_5");
+			var triggeringElement = $(this);
+			var minArrivalDate = new Date();
+								
+			var departureDate= departure.datepicker("getDate") ;				
+			
+			if (departureDate != null) {				
+				departureDate.setDate(departureDate.getDate() + 1);										
+			
+			} else {                       
+				minArrivalDate.setDate(minArrivalDate.getDate() +2);					
+				var month = minArrivalDate.getMonth() + 1;
+  				var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+				arrival.val(todDate);
+				
+			    var myDate = new Date();
+ 				var month = myDate.getMonth() + 1;
+  				var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+ 				departure.val(todDates);								
+			}
+ 		$(function () {
+				$("#air_departure_5_temp").datepicker({
+				dateFormat: dateFormatKey,	
+				defaultDate: +6,
+				onSelect: DatePicked,
+				showAnim:'slide',
+				minDate: '5d'
+				});				
+        });
+			
+ 		$("#air_departure_5_temp").datepicker( "setDate", '+6d');
+		$("#air_departure_5_temp").datepicker('option', 'minDate', '+5d');
+		$("#air_departure_temp").val(getDateFormat($("#air_departure_temp").datepicker("getDate")));
+		$("#air_departure").val(getOriginalDateFormat($("#air_departure_temp").datepicker("getDate")));
+        $("#air_arrival_temp").val(getDateFormat($("#air_arrival_temp").datepicker("getDate")));
+        $("#air_arrival").val(getOriginalDateFormat($("#air_arrival_temp").datepicker("getDate")));
+		
+        becConfigLoad();
+       	becFilterLoad('F');
+
+</script>
+<script>
+	$(document).ready(function() {						   
+		$("#Air_TripType3").click(function(){
+			$("#multi_des_01").show();
+			$("#hide_return_date").hide();			
+		});
+
+		$("#Air_TripType2").click(function(){
+			$("#multi_des_01").hide();	
+			$("#hide_return_date").show();
+		});
+
+		$("#Air_TripType1").click(function(){
+			$("#multi_des_01").hide();	
+			$("#hide_return_date").show();
+		});
+		
+	});
+</script>
+</head>
+<body>
+<input id="norooms_F" name="norooms_F" value="1" type="hidden">
+<div class="main_holder" id="airDisplay" style="display:block;">
+  <div class="bec_container_div cf">
+    <ul class="row10">
+      <li id="f_res_country_div" class="residence-country-block row10"   style="display:none;">
+        <div class="option-main-label row4" id="air_country_lbl_div">
+          <h1>居住国 ?</h1>
+        </div>
+        <div id="air_country_div" class="row6">
+          <select  class="user-residence-select" name="F_Country" id="F_Country" onchange="" validate="formF" require="Please Enter Country of Residence">
+            <option value='' selected="selected">-Select a Country-</option>
+            <option value='0~AF'>Afghanistan</option>
+            <option value='0~AL'>Albania</option>
+            <option value='0~DZ'>Algeria</option>
+            <option value='0~AS'>American Samoa</option>
+            <option value='0~AD'>Andorra</option>
+            <option value='0~AO'>Angola</option>
+            <option value='0~AI'>Anguilla</option>
+            <option value='0~AQ'>Antarctica</option>
+            <option value='0~AG'>Antigua And Barbuda</option>
+            <option value='0~AR'>Argentina</option>
+            <option value='0~AM'>Armenia</option>
+            <option value='0~AW'>Aruba</option>
+            <option value='0~AU'>Australia</option>
+            <option value='0~AT'>Austria</option>
+            <option value='0~AZ'>Azerbaijan</option>
+            <option value='0~BS'>Bahamas</option>
+            <option value='0~BH'>Bahrain</option>
+            <option value='0~BD'>Bangladesh</option>
+            <option value='0~BB'>Barbados</option>
+            <option value='0~BY'>Belarus</option>
+            <option value='0~BE'>Belgium</option>
+            <option value='0~BZ'>Belize</option>
+            <option value='0~BJ'>Benin</option>
+            <option value='0~BM'>Bermuda</option>
+            <option value='0~BT'>Bhutan</option>
+            <option value='0~BO'>Bolivia</option>
+            <option value='0~BA'>Bosnia and Herzegovina</option>
+            <option value='0~BW'>Botswana</option>
+            <option value='0~BV'>Bouvet Island</option>
+            <option value='0~BR'>Brazil</option>
+            <option value='0~IO'>British Indian Ocean Territory</option>
+            <option value='0~BN'>Brunei</option>
+            <option value='0~BG'>Bulgaria</option>
+            <option value='0~BF'>Burkina Faso</option>
+            <option value='0~BI'>Burundi</option>
+            <option value='0~KH'>Cambodia</option>
+            <option value='0~CM'>Cameroon</option>
+            <option value='0~CA'>Canada</option>
+            <option value='0~CV'>Cape Verde</option>
+            <option value='0~KY'>Cayman Islands</option>
+            <option value='0~CF'>Central African Republic</option>
+            <option value='0~TD'>Chad</option>
+            <option value='0~CL'>Chile</option>
+            <option value='0~CN'>China</option>
+            <option value='0~CX'>Christmas Island</option>
+            <option value='0~CC'>Cocos (Keeling) Islands</option>
+            <option value='0~CO'>Colombia</option>
+            <option value='0~KM'>Comoros</option>
+            <option value='0~CG'>Congo</option>
+            <option value='0~CD'>Congo Democractic Republic</option>
+            <option value='0~CK'>Cook Islands</option>
+            <option value='0~CR'>Costa Rica</option>
+            <option value='0~CI'>Cote DIvoire (Ivory Coast)</option>
+            <option value='0~HR'>Croatia (Hrvatska)</option>
+            <option value='0~CU'>Cuba</option>
+            <option value='0~CR'>Curacao</option>
+            <option value='0~CY'>Cyprus</option>
+            <option value='0~CZ'>Czech Republic</option>
+            <option value='0~DK'>Denmark</option>
+            <option value='0~DJ'>Djibouti</option>
+            <option value='0~DM'>Dominica</option>
+            <option value='0~DO'>Dominican Republic</option>
+            <option value='0~TP'>East Timor</option>
+            <option value='0~EC'>Ecuador</option>
+            <option value='0~EG'>Egypt</option>
+            <option value='0~SV'>El Salvador</option>
+            <option value='0~GQ'>Equatorial Guinea</option>
+            <option value='0~ER'>Eritrea</option>
+            <option value='0~EE'>Estonia</option>
+            <option value='0~ET'>Ethiopia</option>
+            <option value='0~FK'>Falkland Islands (Islas Malvinas)</option>
+            <option value='0~FO'>Faroe Islands</option>
+            <option value='0~FJ'>Fiji</option>
+            <option value='0~FI'>Finland</option>
+            <option value='0~FR'>France</option>
+            <option value='0~GF'>French Guiana</option>
+            <option value='0~PF'>French Polynesia</option>
+            <option value='0~TF'>French Southern Territories</option>
+            <option value='0~GA'>Gabon</option>
+            <option value='0~GM'>Gambia</option>
+            <option value='0~GE'>Georgia</option>
+            <option value='4~DE'>Germany</option>
+            <option value='0~GH'>Ghana</option>
+            <option value='0~GI'>Gibraltar</option>
+            <option value='0~GR'>Greece</option>
+            <option value='0~GL'>Greenland</option>
+            <option value='0~GD'>Grenada</option>
+            <option value='0~GP'>Guadeloupe</option>
+            <option value='0~GU'>Guam</option>
+            <option value='0~GT'>Guatemala</option>
+            <option value='0~GN'>Guinea</option>
+            <option value='0~GW'>Guinea-Bissau</option>
+            <option value='0~GY'>Guyana</option>
+            <option value='0~HT'>Haiti</option>
+            <option value='0~HM'>Heard and McDonald Islands</option>
+            <option value='0~HN'>Honduras</option>
+            <option value='0~HK'>Hong Kong</option>
+            <option value='0~HU'>Hungary</option>
+            <option value='0~IS'>Iceland</option>
+            <option value='0~IN'>India</option>
+            <option value='0~ID'>Indonesia</option>
+            <option value='0~IR'>Iran</option>
+            <option value='0~IQ'>Iraq</option>
+            <option value='0~IE'>Ireland</option>
+            <option value='0~IL'>Israel</option>
+            <option value='2~IT'>Italy</option>
+            <option value='0~JM'>Jamaica</option>
+            <option value='0~JP'>Japan</option>
+            <option value='0~JO'>Jordan</option>
+            <option value='0~KZ'>Kazakhstan</option>
+            <option value='0~KE'>Kenya</option>
+            <option value='0~KI'>Kiribati</option>
+            <option value='0~KR'>Korea</option>
+            <option value='1~KW'>Kuwait</option>
+            <option value='0~KG'>Kyrgyzstan</option>
+            <option value='0~LA'>Laos</option>
+            <option value='0~LV'>Latvia</option>
+            <option value='0~LB'>Lebanon</option>
+            <option value='0~LS'>Lesotho</option>
+            <option value='0~LR'>Liberia</option>
+            <option value='0~LY'>Libya</option>
+            <option value='0~LI'>Liechtenstein</option>
+            <option value='0~LT'>Lithuania</option>
+            <option value='0~LU'>Luxembourg</option>
+            <option value='0~MO'>Macau</option>
+            <option value='0~MK'>Macedonia</option>
+            <option value='0~MG'>Madagascar</option>
+            <option value='0~MW'>Malawi</option>
+            <option value='0~MY'>Malaysia</option>
+            <option value='0~MV'>Maldives</option>
+            <option value='0~ML'>Mali</option>
+            <option value='0~MT'>Malta</option>
+            <option value='0~MH'>Marshall Islands</option>
+            <option value='0~MQ'>Martinique</option>
+            <option value='0~MR'>Mauritania</option>
+            <option value='0~MU'>Mauritius</option>
+            <option value='0~YT'>Mayotte</option>
+            <option value='0~MX'>Mexico</option>
+            <option value='0~FM'>Micronesia</option>
+            <option value='0~MD'>Moldova</option>
+            <option value='0~MC'>Monaco</option>
+            <option value='0~MN'>Mongolia</option>
+            <option value='0~ME'>Montenegro</option>
+            <option value='0~MS'>Montserrat</option>
+            <option value='0~MA'>Morocco</option>
+            <option value='0~MZ'>Mozambique</option>
+            <option value='0~MM'>Myanmar</option>
+            <option value='0~NA'>Namibia</option>
+            <option value='0~NR'>Nauru</option>
+            <option value='0~NP'>Nepal</option>
+            <option value='0~NL'>Netherlands</option>
+            <option value='0~AN'>Netherlands Antilles</option>
+            <option value='0~NC'>New Caledonia</option>
+            <option value='0~NZ'>New Zealand</option>
+            <option value='0~NI'>Nicaragua</option>
+            <option value='0~NE'>Niger</option>
+            <option value='0~NG'>Nigeria</option>
+            <option value='0~NU'>Niue</option>
+            <option value='0~NF'>Norfolk Island</option>
+            <option value='0~NY'>North Cyprus</option>
+            <option value='0~KP'>North Korea</option>
+            <option value='0~MP'>Northern Mariana Islands</option>
+            <option value='0~NO'>NorthernIreland</option>
+            <option value='0~NO'>Norway</option>
+            <option value='1~OM'>Oman</option>
+            <option value='0~PK'>Pakistan</option>
+            <option value='0~PW'>Palau</option>
+            <option value='0~PA'>Panama</option>
+            <option value='0~PG'>Papua new Guinea</option>
+            <option value='0~PY'>Paraguay</option>
+            <option value='0~PE'>Peru</option>
+            <option value='0~PH'>Philippines</option>
+            <option value='0~PN'>Pitcairn Island</option>
+            <option value='0~PL'>Poland</option>
+            <option value='0~PT'>Portugal</option>
+            <option value='0~PR'>Puerto Rico</option>
+            <option value='1~QA'>Qatar</option>
+            <option value='0~RE'>Reunion</option>
+            <option value='0~RO'>Romania</option>
+            <option value='0~RU'>Russia</option>
+            <option value='0~RW'>Rwanda</option>
+            <option value='0~SH'>Saint Helena</option>
+            <option value='0~KN'>Saint Kitts And Nevis</option>
+            <option value='0~LC'>Saint Lucia</option>
+            <option value='0~PM'>Saint Pierre and Miquelon</option>
+            <option value='0~VC'>Saint Vincent And The Grenadines</option>
+            <option value='0~WS'>Samoa</option>
+            <option value='0~SM'>San Marino</option>
+            <option value='0~MF'>San Martin</option>
+            <option value='0~ST'>Sao Tome and Principe</option>
+            <option value='0~SA' >Saudi Arabia</option>
+            <option value='0~SN'>Senegal</option>
+            <option value='0~RS'>Serbia</option>
+            <option value='0~SC'>Seychelles</option>
+            <option value='0~SL'>Sierra Leone</option>
+            <option value='0~SG'>Singapore</option>
+            <option value='0~SK'>Slovakia</option>
+            <option value='0~SI'>Slovenia</option>
+            <option value='0~SB'>Solomon Islands</option>
+            <option value='0~SO'>Somalia</option>
+            <option value='0~ZA'>South Africa</option>
+            <option value='0~AG'>South Korea</option>
+            <option value='3~ES'>Spain</option>
+            <option value='0~LK'>Sri Lanka</option>
+            <option value='0~SD'>Sudan</option>
+            <option value='0~SR'>Suriname</option>
+            <option value='0~SJ'>Svalbard And Jan Mayen Islands</option>
+            <option value='0~SZ'>Swaziland</option>
+            <option value='0~SE'>Sweden</option>
+            <option value='0~CH'>Switzerland</option>
+            <option value='0~SY'>Syria</option>
+            <option value='0~TW'>Taiwan</option>
+            <option value='0~TJ'>Tajikistan</option>
+            <option value='0~TZ'>Tanzania</option>
+            <option value='0~TH'>Thailand</option>
+            <option value='0~TG'>Togo</option>
+            <option value='0~TK'>Tokelau</option>
+            <option value='0~TO'>Tonga</option>
+            <option value='0~TT'>Trinidad And Tobago</option>
+            <option value='0~TN'>Tunisia</option>
+            <option value='0~TR'>Turkey</option>
+            <option value='0~TM'>Turkmenistan</option>
+            <option value='0~TC'>Turks And Caicos Islands</option>
+            <option value='0~TV'>Tuvalu</option>
+            <option value='0~UG'>Uganda</option>
+            <option value='0~UA'>Ukraine</option>
+            <option value='1~AE'>United Arab Emirates</option>
+            <option value='5~UK'>United Kingdom</option>
+            <option value='0~UY'>Uruguay</option>
+            <option value='0~UM'>US Minor Outlying Islands</option>
+            <option value='0~US'>USA</option>
+            <option value='0~UZ'>Uzbekistan</option>
+            <option value='0~VU'>Vanuatu</option>
+            <option value='0~VA'>Vatican City State (Holy See)</option>
+            <option value='0~VE'>Venezuela</option>
+            <option value='0~VN'>Vietnam</option>
+            <option value='0~VG'>Virgin Islands (British)</option>
+            <option value='0~VI'>Virgin Islands (US)</option>
+            <option value='0~WF'>Wallis And Futuna Islands</option>
+            <option value='0~YE'>Yemen</option>
+            <option value='0~YU'>Yugoslavia</option>
+            <option value='0~ZM'>Zambia</option>
+            <option value='0~ZW'>Zimbabwe</option>
+          </select>
+        </div>
+      </li>
+      <input type="hidden" name="trip_type" id="trip_type" value="R"/>
+      <div class="polka-dots"></div>
+      <li class="trip-type">
+        <div class="option-main-label">
+          <h1>航班类型</h1>
+        </div>
+         <div class="trip-type-options">
+          <div>
+            <input name="Air_TripType" id="Air_TripType2" type="radio" class="radio_top"  onClick="onewayHide()" checked="checked" />
+            <label class="option-sub-label" translate="no">往返</label>
+          </div>
+
+          <div>
+            <input name="Air_TripType" id="Air_TripType1" type="radio" class="radio_top" onClick="onewayHide()" />
+            <label class="option-sub-label" translate="no">单程</label>
+          </div>
+          <div>
+            <input name="Air_TripType" id="Air_TripType3" type="radio" class="radio_top" onClick="onewayHide()" />
+            <label class="option-sub-label" translate="no">多目的地</label>
+          </div>
+        </div>
+      </li>
+
+	  <li class="trip-type">
+	  	<div class="option-main-label">
+	    	<h1>目的地 ?</h1>
+	  	</div>
+	  </li>
+      <ul class="location-inputs">
+        <li class="flight-departure">
+          <div>
+            <label class="flight-passenger-label flight-label label-bg-common">出发城市</label>
+          </div>
+          <div class="flight-departure-input">
+            <input class="user-country-select italic" name="air_Loc_a"  id="air_Loc_a" type="text" value="" placeholder="(请用英文输入）城市或机场" size="20" validate="formF" require="出发城市"/>
+            <input type="hidden" id="hid_air_Loc_a" name="hid_air_Loc_a" value="" validate="formF" require="出发城市"/>
+          </div>
+        </li>
+        <li class="flight-arrival">
+          <div>
+            <label class="flight-passenger-label flight-label label-bg-common">到达城市</label>
+          </div>
+          <div class="flight-arrival-input">
+            <input class="user-country-select italic" name="air_Loc1_a" id="air_Loc1_a" type="text" value=""  placeholder="(请用英文输入）城市或机场" size="20" validate="formF" require="到达城市"/>
+            <input type="hidden" id="hid_air_Loc1_a" name="hid_air_Loc1_a" value="" validate="formF" require="到达城市"/>
+          </div>
+        </li>
+      </ul>
+      <ul class="date-time-block">
+        <li class="flight-times">
+          <div>
+            <div>
+              <label class="option-sub-label">出发日期</label>
+            </div>
+            <div>
+              <input class="user-date-select"  type="text" id="air_departure_temp" name="air_departure_temp" readonly validate="formF" require="Please Select Depart Date" />
+              <input type="hidden" id="air_departure" name="air_departure" readonly validate="formF" require="Please Select Depart Date" />
+            </div>
+            <input name="F_nights" id="F_nights" type="text"  style="display:none"/>
+          </div>
+          <div>
+            <div>
+              <label class="option-sub-label">出发时间</label>
+            </div>
+            <div>
+              <select class="user-time-select" name="Air_DepTime_a" id="Air_DepTime_a">
+                <option value="00:00" selected="selected">任意时间</option>
+                <option value="06:00@6@6">早上</option>
+                <option value="14:00@2@2">下午</option>
+                <option value="20:00@4@4">晚上</option>
+              </select>
+            </div>
+            <select  class="user-time-select" name="dep_flexx" id="dep_flexx" style="display:none">
+              <option value="3" selected="selected"> /-3 Days</option>
+              <option value="2"> /-2 Days</option>
+              <option value="1"> /-1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </div>
+        </li>
+        <li id="hide_return_date" class="flight-times">
+          <div  id="retDateDisplay_date" style="display:inline-block;">
+            <div>
+              <label class="option-sub-label">回程日期</label>
+            </div>
+            <div>
+              <input class="user-date-select" type="text" name="air_arrival_temp" id="air_arrival_temp" readonly validate="formF" require="Please Select Arrival Date"  />
+              <input type="hidden" name="air_arrival" id="air_arrival" readonly validate="formF" require="Please Select Arrival Date"  />
+            </div>
+          </div>
+          <div  id="retDateDisplay_time" style="display:inline-block;">
+            <div>
+              <label class="option-sub-label">回程时间</label>
+            </div>
+            <div>
+              <select class="user-time-select" name="Air_RetTime_a" id="Air_RetTime_a">
+                <option value="00:00" selected="selected">任意时间</option>
+                <option value="06:00@6@6">早上</option>
+                <option value="14:00@2@2">下午</option>
+                <option value="20:00@4@4">晚上</option>
+              </select>
+            </div>
+            <select class="user-time-select" name="ret_flexx" id="ret_flexx" style="display:none">
+              <option value="3" selected="selected"> /- 3 Days</option>
+              <option value="2"> /- 2 Days</option>
+              <option value="1"> /- 1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </div>
+        </li>
+		
+		<li id="flax_container_div" style="display: block;">
+        <input type="checkbox" name="isFlexSearch_F" id="isFlexSearch_F" class="radio_top" />
+        <label class="option-sub-label">上述日期 <span class="option-sub-label"> (3天前后出行的也可以接受)</span></label>
+      </li>
+      <div class="polka-dots"></div>
+      
+      <ul>
+      	
+      		<!-- Multi Destination 1 -->
+      <li  id="multi_des_01"  style="display:none;">
+        <ul class="location-inputs">
+          <li class="flight-departure">
+            <div>
+              <label class="flight-passenger-label label-bg-common">出发城市</label>
+            </div>
+            <div class="flight-departure-input">
+              <input class="user-country-select" name="air_Loc_dep_m_2"  id="air_Loc_dep_m_2" type="text" placeholder="(请用英文输入）城市或机场" value="TEST" size="20" validate="formF" require="Please Enter Second Departure Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_dep_m_2" name="hid_air_Loc_dep_m_2" value="TEST"  placeholder="(请用英文输入）城市或机场" require="Please Enter Second Departure Location"/>
+          </li>
+          <li class="flight-arrival">
+            <div>
+              <label class="flight-passenger-label label-bg-common">到达城市</label>
+            </div>
+            <div class="flight-arrival-input">
+              <input class="user-country-select" name="air_Loc_to_m_2" id="air_Loc_to_m_2" placeholder="(请用英文输入）城市或机场" type="text" value="TEST" size="20" validate="formF" require="Please Enter Second Arrival Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_to_m_2" name="hid_air_Loc_to_m_2" value="TEST" placeholder="(请用英文输入）城市或机场" require="Please Enter Second Arrival Location"/>
+          </li>
+          <div class="arrow_plu arrow1"></div>
+        </ul>
+        <ul class="multi-destination-times">
+          <li class="flight-times row5">
+            <label class="option-sub-label">出发日期</label>
+            <input class="user-date-select" type="text" id="air_departure_2_temp" name="air_departure_2_temp" readonly validate="formF" require="Please Select Depart Date" />
+            <input type="hidden" id="air_departure_2" name="air_departure_2" readonly validate="formF" require="Please Select Depart Date" />
+            <input name="F_nights" id="F_nights" type="text"  style="display:none"/>
+          </li>
+          <li class="row5">
+            <label class="option-sub-label">出发时间</label>
+            <select class="user-time-select"  name="Air_DepTime_a_2" id="Air_DepTime_a_2">
+              <option value="00:00" selected="selected">任意时间</option>
+              <option value="06:00@6@6">早上</option>
+              <option value="14:00@2@2">下午</option>
+              <option value="20:00@4@4">晚上</option>
+            </select>
+            <select class="user-time-select"  name="dep_flexx" id="dep_flexx" style="display:none">
+              <option value="3" selected="selected"> /-3 Days</option>
+              <option value="2"> /-2 Days</option>
+              <option value="1"> /-1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </li>
+        </ul>
+      </li>
+      <!-- Multi destination 2 -->
+      <li  id="multi_des_02"  style="display:none;">
+        <ul class="location-inputs">
+          <li class="flight-departure">
+            <div>
+              <label class="flight-passenger-label label-bg-common">出发城市</label>
+            </div>
+            <div class="flight-departure-input">
+              <input class="user-country-select"  name="air_Loc_dep_m_3"  id="air_Loc_dep_m_3" placeholder="(请用英文输入）城市或机场" type="text" value="TEST" size="20" validate="formF" require="Please Enter Third Departure Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_dep_m_3" name="hid_air_Loc_dep_m_3" value="TEST"  placeholder="(请用英文输入）城市或机场" require="Please Enter Second Departure Location"/>
+          </li>
+          <li class="flight-arrival">
+            <div>
+              <label class="flight-passenger-label label-bg-common">到达城市</label>
+            </div>
+            <div class="flight-arrival-input">
+              <input class="user-country-select"  name="air_Loc_to_m_3" id="air_Loc_to_m_3" type="text" placeholder="(请用英文输入）城市或机场" value="TEST" size="20" validate="formF" require="Please Enter Third Arrival Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_to_m_3" name="hid_air_Loc_to_m_3" value="TEST" placeholder="(请用英文输入）城市或机场" require="Please Enter Second Arrival Location"/>
+          </li>
+          <div class="arrow_plu arrow2"></div>
+        </ul>
+        <ul class="multi-destination-times">
+          <li class="flight-times row5">
+            <label class="option-sub-label" translate="no">出发日期</label>
+            <input class="user-date-select"  type="text" id="air_departure_3_temp" name="air_departure_3_temp" readonly validate="formF" require="Please Select Depart Date" />
+            <input type="hidden" id="air_departure_3" name="air_departure_3" readonly validate="formF" require="Please Select Depart Date" />
+            <input name="F_nights" id="F_nights" type="text"  style="display:none"/>
+          </li>
+          <li class="row5">
+            <label class="option-sub-label" translate="no">出发时间</label>
+            <select class="user-time-select" name="Air_DepTime_a_3" id="Air_DepTime_a_3">
+              <option value="00:00" selected="selected">任意时间</option>
+              <option value="06:00@6@6">早上</option>
+              <option value="14:00@2@2">下午</option>
+              <option value="20:00@4@4">晚上</option>
+            </select>
+            <select  class="user-time-select" name="dep_flexx" id="dep_flexx" style="display:none">
+              <option value="3" selected="selected"> /-3 Days</option>
+              <option value="2"> /-2 Days</option>
+              <option value="1"> /-1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </li>
+        </ul>
+      </li>
+      <!-- Multi destination 3 -->
+      <li  id="multi_des_03"  style="display:none;">
+        <ul class="location-inputs">
+          <li class="flight-departure">
+            <div>
+              <label class="flight-passenger-label label-bg-common">出发城市</label>
+            </div>
+            <div class="flight-departure-input">
+              <input class="user-country-select" name="air_Loc_dep_m_4"  id="air_Loc_dep_m_4" placeholder="(请用英文输入）城市或机场" type="text" value="TEST" size="20" validate="formF" require="Please Enter Fourth Departure Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_dep_m_4" name="hid_air_Loc_dep_m_4" value="TEST"  placeholder="(请用英文输入）城市或机场" require="Please Enter Second Departure Location"/>
+          </li>
+          <li class="flight-arrival">
+            <div>
+              <label class="flight-passenger-label label-bg-common">到达城市</label>
+            </div>
+            <div class="flight-arrival-input">
+              <input class="user-country-select" name="air_Loc_to_m_4" id="air_Loc_to_m_4" type="text" placeholder="(请用英文输入）城市或机场" value="TEST" size="20" validate="formF" require="Please Enter Fourth Arrival Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_to_m_4" name="hid_air_Loc_to_m_4" value="TEST" placeholder="(请用英文输入）城市或机场" require="Please Enter Second Arrival Location"/>
+          </li>
+          <div class="arrow_plu arrow3"></div>
+        </ul>
+        <ul class="multi-destination-times">
+          <li class="flight-times row5">
+            <label class="option-sub-label" translate="no">出发日期</label>
+            <input class="user-date-select" type="text" id="air_departure_4_temp" name="air_departure_4_temp" readonly validate="formF" require="Please Select Depart Date" />
+            <input type="hidden" id="air_departure_4" name="air_departure_4" readonly validate="formF" require="Please Select Depart Date" />
+            <input name="F_nights" id="F_nights" type="text"  style="display:none" />
+          </li>
+          <li class="row5">
+            <label class="option-sub-label" translate="no">出发时间</label>
+            <select class="user-time-select"  name="Air_DepTime_a_4" id="Air_DepTime_a_4">
+              <option value="00:00" selected="selected">任意时间</option>
+              <option value="06:00@6@6">早上</option>
+              <option value="14:00@2@2">下午</option>
+              <option value="20:00@4@4">晚上</option>
+            </select>
+            <select class="user-time-select"  name="dep_flexx" id="dep_flexx" style="display:none">
+              <option value="3" selected="selected"> /-3 Days</option>
+              <option value="2"> /-2 Days</option>
+              <option value="1"> /-1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </li>
+        </ul>
+      </li>
+      <!-- Multi destination 4 -->
+      <li  id="multi_des_04"  style="display:none;">
+        <ul class="location-inputs">
+          <li class="flight-departure">
+            <div>
+              <label class="flight-passenger-label label-bg-common">出发城市</label>
+            </div>
+            <div class="flight-departure-input">
+              <input class="user-country-select" name="air_Loc_dep_m_5"  id="air_Loc_dep_m_5" type="text" placeholder="(请用英文输入）城市或机场" value="TEST" size="20" validate="formF" require="Please Enter Fifth Departure Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_dep_m_5" name="hid_air_Loc_dep_m_5" value="TEST" placeholder="(请用英文输入）城市或机场"  require="Please Enter Second Departure Location"/>
+          </li>
+          <li class="flight-arrival">
+            <div>
+              <label class="flight-passenger-label label-bg-common">到达城市</label>
+            </div>
+            <div class="flight-arrival-input">
+              <input class="user-country-select" name="air_Loc_to_m_5" id="air_Loc_to_m_5" type="text" placeholder="(请用英文输入）城市或机场" value="TEST" size="20" validate="formF" require="Please Enter Fifth Arrival Location"/>
+            </div>
+            <input type="hidden" id="hid_air_Loc_to_m_5" name="hid_air_Loc_to_m_5" value="TEST" placeholder="(请用英文输入）城市或机场" require="Please Enter Second Arrival Location"/>
+          </li>
+        </ul>
+         <ul class="multi-destination-times">
+          <li class="flight-times row5">
+            <label class="option-sub-label" translate="no">出发日期</label>
+            <input class="user-date-select" type="text" id="air_departure_5_temp" name="air_departure_5_temp" readonly validate="formF" require="Please Select Depart Date" />
+            <input type="hidden" id="air_departure_5" name="air_departure_5" readonly validate="formF" require="Please Select Depart Date" />
+            <input name="F_nights" id="F_nights" type="text"  style="display:none" />
+          </li>
+          <li class="row5">
+            <label class="option-sub-label" translate="no">出发时间</label>
+            <select class="user-time-select" name="Air_DepTime_a_5" id="Air_DepTime_a_5">
+              <option value="00:00" selected="selected">任意时间</option>
+              <option value="06:00@6@6">早上</option>
+              <option value="14:00@2@2">下午</option>
+              <option value="20:00@4@4">晚上</option>
+            </select>
+            <select class="user-time-select"  name="dep_flexx" id="dep_flexx" style="display:none">
+              <option value="3" selected="selected"> /-3 Days</option>
+              <option value="2"> /-2 Days</option>
+              <option value="1"> /-1 Day</option>
+              <option value="0">Exact Date</option>
+            </select>
+          </li>
+		  
+        </ul>
+
+      	</li>
+      </ul>
+      
+      <li>
+        <div class="option-main-label">
+          <h1>多少人 ?</h1>
+        </div>
+        <ul id="roomComboF" class="flight-passengers">
+        </ul>
+      </li>
+      </ul>
+      
+      <li class="morefilters" style="display:none;">        
+        <ul>
+      
+      </ul>	  
+	  <div class="polka-dots"></div>
+      <ul>
+          <li id="pref_airline_F" class="preffered-airline">
+            <label class="option-sub-label display-block">喜欢的航空公司代码</label>
+            <input class="user-options-select row10" id="Air_line" name="Air_line" type="text" onClick="return validate('formAN');" validate="formAN" require="航空公司代码" />
+          </li>
+          <li id="air_class_F" class="preffered-class">
+            <label class="option-sub-label display-block">舱位等级</label>
+            <select name="Aira_FlightClass" id="Aira_FlightClass" class="user-options-select row10">
+              <option value="Economy" selected="selected">经济舱</option>
+              <option value="Business">公务舱</option>
+              <option value="First">头等舱</option>
+            </select>
+          </li>
+          <li id="pref_cur_F" class="preffered-currency">
+            <label class="option-sub-label display-block" translate="no">所需币种</label>
+            <select  name="F_consumerCurrencyCode" id="F_consumerCurrencyCode" class="user-options-select row10">
+              <option selected="selected" value="" style="display:none">请选择货币种类</option>
+              <option value="GBP">GBP</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="LKR">LKR</option>
+              <option value="MYR">MYR</option>
+              <option value="AUD">AUD</option>
+              <option value="CAN">CAN</option>
+              <option value="CHF">CHF</option>
+              <option value="INR">INR</option>
+              <option value="JOD">JOD</option>
+              <option value="AED">AED</option>
+              <option value="QAR">QAR</option>
+              <option value="SAR">SAR</option>
+              <option value="PHP">PHP</option>
+              <option value="DKK">DKK</option>
+              <option value="NOK">NOK</option>
+              <option value="SEK">SEK</option>
+              <option value="EGP">EGP</option>
+              <option value="BHD">BHD</option>
+              <option value="OMR">OMR</option>
+              <option value="PKR">PKR</option>
+              <option value="IQD">IQD</option>
+              <option value="KWD">KWD</option>
+            </select>
+          </li>
+          <li id="promotionCodeDiv_F" class="flight-promotion-code">
+            <label class="option-sub-label display-block" translate="no">促销代码</label>
+            <input type="text" id="discountCoupon_No_F" name="discountCoupon_No_F" class="user-options-select row10">
+            </input>
+          </li>
+          <li id="pref_nonstop_F" class="row5">
+            <input type="checkbox" name="nonstop_flight"  />
+            <label class="option-sub-label" translate="no">仅直飞航班</label>
+          </li>
+          <div class="polka-dots"></div>
+        </ul>
+      </li>
+      <li>
+        <div class="hide_filter"><a href="#" class="show_filter" translate="no">高级搜索<span id='arrow_down' class='arrow_down'>&nbsp;&nbsp;&nbsp;</span></a></div>
+      </li>
+      <li class="cf"> <a onClick="return validate('formF');" href="JavaScript:search('F');" class="search-button">
+        <div id="search_btns_f" translate="no">搜索</div> 
+        </a> </li>
+    </ul>
+  </div>
+</div>
+<input type="hidden" id="air_nights" name="F_nights"  />
+<script type="text/javascript">
+	setEngType("F");
+	$(document).ready(function(){		
+		$("#air_Loc_dep_m_3").removeAttr('validate');
+		$("#air_Loc_to_m_3").removeAttr('validate');
+	
+		$("#air_Loc_dep_m_4").removeAttr('validate');
+		$("#air_Loc_to_m_4").removeAttr('validate');
+		
+		$("#air_Loc_dep_m_5").removeAttr('validate');
+		$("#air_Loc_to_m_5").removeAttr('validate');
+		
+		$(".arrow1").click(function(){ 			
+		$("#multi_des_02").slideDown("slow"); 
+		//$("#air_Loc_dep_m_3").val('');
+		//$("#air_Loc_to_m_3").val('');
+		
+		if ($(".arrow1").hasClass("arrow_min")) {
+			$("#air_Loc_to_m_3").removeAttr('validate');
+			$("#air_Loc_dep_m_3").removeAttr('validate');
+			$("#air_Loc_dep_m_4").removeAttr('validate');
+			$("#air_Loc_to_m_4").removeAttr('validate');
+			$("#air_Loc_dep_m_5").removeAttr('validate');
+			$("#air_Loc_to_m_5").removeAttr('validate');
+			
+			$("#multi_des_02").slideUp("slow");
+			$("#multi_des_03").slideUp("slow");
+			$("#multi_des_04").slideUp("slow");
+			$(".arrow1").removeClass("arrow_min").addClass("arrow_plu"); 
+			$(".arrow2").removeClass("arrow_min").addClass("arrow_plu"); 
+			$(".arrow3").removeClass("arrow_min").addClass("arrow_plu"); 
+		 }else{
+			$("#air_Loc_dep_m_3").attr('validate', 'formF');
+	 		$("#air_Loc_to_m_3").attr('validate', 'formF');
+	 			
+			$(".arrow1").removeClass("arrow_plu").addClass("arrow_min");
+		 }
+		 setTimeout('resizeContainer()',400);
+	});
+		
+		$(".arrow2").click(function(){ 			
+			$("#multi_des_03").slideDown("slow"); 
+			//$("#air_Loc_dep_m_4").val('');
+			//$("#air_Loc_to_m_4").val('');
+			
+		 	if ($(".arrow2").hasClass("arrow_min")) {
+		 		$("#air_Loc_dep_m_4").removeAttr('validate');
+				$("#air_Loc_to_m_4").removeAttr('validate');
+				$("#air_Loc_dep_m_5").removeAttr('validate');
+				$("#air_Loc_to_m_5").removeAttr('validate');
+		 		
+				$("#multi_des_03").slideUp("slow");
+			  	$("#multi_des_04").slideUp("slow");	
+			 	$(".arrow2").removeClass("arrow_min").addClass("arrow_plu"); 
+			  	$(".arrow3").removeClass("arrow_min").addClass("arrow_plu"); 
+			   	$(".arrow4").removeClass("arrow_min").addClass("arrow_plu"); 
+			}else{					
+				$("#air_Loc_dep_m_4").attr('validate', 'formF');
+				$("#air_Loc_to_m_4").attr('validate', 'formF');	
+					
+		 		$(".arrow2").removeClass("arrow_plu").addClass("arrow_min");
+			} 
+			setTimeout('resizeContainer()',400);
+		});	
+		
+		$(".arrow3").click(function(){		
+			//$("#air_Loc_dep_m_5").val('');
+			//$("#air_Loc_to_m_5").val('');
+			if ($(".arrow3").hasClass("arrow_min")) {
+				$("#air_Loc_dep_m_5").removeAttr('validate');
+				$("#air_Loc_to_m_5").removeAttr('validate');
+			}else{				
+				$("#air_Loc_dep_m_5").attr('validate', 'formF');
+				$("#air_Loc_to_m_5").attr('validate', 'formF');	
+			}
+			
+			$("#multi_des_04").slideToggle("slow");
+		 	$(".arrow3").toggleClass('arrow_min');
+			setTimeout('resizeContainer()',400);
+		});		
+
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Reservation System</title>
+<link href="css/ui-lightness/jquery-ui-1.8.10.custom.css" rel="stylesheet" type="text/css"/>
+<link href="css/style.css" type="text/css" rel="stylesheet" media="screen" />
+<link type="text/css" href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" media="all" href="css/whhg.css" />
+<link type="text/css" href="css/font-awesome.css" rel="stylesheet" />
+<link type="text/css" href="css/reset.css" rel="stylesheet" />
+<link type="text/css" href="css/ct.css" rel="stylesheet" />
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-custom.min.js"></script>
+<script type="text/javascript" src="js/sidjs-0.1.js"></script>
+<script type="text/javascript" src="js/jquery.validator.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+
+<script type="text/javascript" src="js/scripts.js?v=1"></script>
+
+<script type="application/javascript">
+/* This service offers a REST API allowing to get a visitor IP address and to query location information from any IP address. 
+It outputs JSON-encoded IP geolocation data, and supports both JSON and JSONP. */
+
+var subUrl= "http://chinatelecomtravel-web.chinatelecomtravel.com/ctReservations/";
+
+$(document).ready(function() {
+	$.ajax({
+		url : subUrl+'ComponentSupportAction.do?method=getGEOLocation',
+          method : 'post',	  
+	      dataType: "text",
+	      data : {
+        	  method : "getGEOLocation",
+        	  transectionId : $('#transectionId').val()	                            
+          },
+          success: function(data){
+        	var locationList = eval(data);
+		    if (locationList.length > 0) {
+		    	$('#ipAddress').val(locationList[0].ipAddress);	
+		    	$('#clientCountryCode').val(locationList[0].clientCountryCode);
+		    }	            	  
+          }
+       });
+});
+
+</script>
+
+
+<script>
+var subUrl= "http://chinatelecomtravel-web.chinatelecomtravel.com/ctReservations/";
+$(document).ready(function() {
+	affiliateTimer();
+try{
+//$("#tabs").tabs()
+//loadTab();
+
+	setTimeout(function(){ 
+		 loadTab();
+	},10);
+	// $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+	// $("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
+	 $("#ribbon").removeClass('ui-corner-all').addClass('ui-corner-top');
+	 
+	 
+}catch(e){
+		alert(e);
+} 
+
+try{
+	var w = getUrlVars()["wjt"];
+	var wjtname = w.split("wj_")[1];
+	bec_name = "bec_container_frame_"+ wjtname;
+}catch(e){}
+});
+
+
+function createXMLHttpRequest() {
+	try{ return new ActiveXObject("Msxml2.XMLHTTP");} catch (e) {}
+    try{ return new ActiveXObject("Microsoft.XMLHTTP");} catch (e) {}
+	try{ return new XMLHttpRequest(); }catch (e) {}
+	return null;
+}
+
+function loadTab(){	
+	var portal= $('#portal').val();
+	var appProdDefProdCookie = $.cookie( portal+'_app_prod_def_prod' );	
+	
+	if(appProdDefProdCookie ==null || appProdDefProdCookie =='' || appProdDefProdCookie == undefined) {
+		var product = "F";
+		var reservationProduct = "VFHACTP";
+		
+		$(document).ready(function(){
+			$.ajax({
+	              url : subURL+'ComponentSupportAction.do?method=getDefaultProduct',
+	              method : 'post',
+	              data : {
+	            	  method : "getDefaultProduct",
+	            	  transectionId : $('#transectionId').val()	                            
+	              },
+	              dataType: "text",
+	              success: function(data){
+	            	var defaultProductList = eval(data);
+				    if (defaultProductList.length > 0) {
+				    	product = defaultProductList[0].default_product;
+				    	$('#engLoaded').val(product);
+				    	reservationProduct = defaultProductList[0].reservation_product;
+				    	
+				    	/**Setting defalut tab and loading reservation product here*/
+				    	$.cookie(portal+'_app_prod_def_prod',JSON.stringify(defaultProductList[0]));
+				    	initTabs(defaultProduct(product))
+				    	setTabs(reservationProduct);
+				    	$.cookie(portal+'_reservation_prod',reservationProduct);
+				    }	            	  
+	              }
+	          });
+		});		
+	}else{
+		appProdDefProdCookie = JSON.parse(appProdDefProdCookie);		
+		var selectedProduct = 'H';
+		try{
+			var selectedProduct = window.location.toString().split('?')[1].split('product=')[1];
+		}catch(e){}
+		
+		initTabs(selectedProduct != '' ? selectedProduct : defaultProduct(appProdDefProdCookie.default_product));
+		setTabs(appProdDefProdCookie.reservation_product);
+		$.cookie(portal+'_reservation_prod',appProdDefProdCookie.reservation_product);
+	}
+}
+
+function setTabs(products){
+	
+	if(products.indexOf('V')==-1){
+		$("#vLi").hide();		
+	}
+	if(products.indexOf('F')==-1){
+		$("#fLi").hide();
+	}
+	if(products.indexOf('H')==-1){
+		$("#hLi").hide();
+	}
+	if(products.indexOf('A')==-1){
+		$("#aLi").hide();
+	}
+	if(products.indexOf('C')==-1){
+		$("#cLi").hide();
+	}
+	if(products.indexOf('T')==-1){
+		$("#tLi").hide();
+	} 
+	if(products.indexOf('P')==-1){
+		$("#pLi").hide();
+	}	
+}
+function defaultProduct(product){	
+	var tab = 0;
+	switch (product){
+		case 'F': tab = 0; break;
+		case 'H': tab = 1; break;
+		case 'C': tab = 2; break;
+		case 'T': tab = 3; break;
+		case 'A': tab = 4; break;
+		case 'V': tab = 5; break;
+		case 'P': tab = 6; break;
+	} 
+	return tab;
+}
+
+function affiliateTimer(){
+	try{
+		//console.log($('#partnerType').val());
+	if('AFF'==$('#partnerType').val()){
+		try{$('.discountcoupon').hide();}catch(e){}
+		try{$('#promotionCodeDiv_F').hide();}catch(e){}
+		
+	}else{
+		try{$('.discountcoupon').show();}catch(e){}
+		try{$('#promotionCodeDiv_F').show();}catch(e){}
+	}
+	}catch(e){}
+	setTimeout('affiliateTimer()',1000);
+}
+</script>
+</head>
+<body onload="fillForm('I');resizeContainer();" >
+<div class="disablebg" id="disablebg"></div>
+<div class="loading_window" id="loading_window">
+  <div class="loading_window_inner">
+    <div class="loading_image desktop_show"> <img src='images/loading_bar_desktop.gif' width="300" alt="loading bar"/> </div>
+  </div>
+</div>
+<div id="mm" style="position: absolute;background-color: white;z-index: 1500;top: 0;left: 0;"></div>
+<script>
+try{
+ 
+var screenH =0;
+if(navigator.appName=='Netscape'){
+	  screenH = window.innerHeight || document.body.offsetHeight;
+}else{
+	  screenH = document.documentElement.clientHeight;
+}
+var screenW = document.documentElement.clientWidth;
+//alert(screenW+"-"+screenH)
+document.getElementById('mm').style.height = screenH+"px";
+document.getElementById('mm').style.width = screenW+"px";
+
+}catch(e){
+	alert(e);
+}
+</script>
+<div id="dialogs" style="display:none" title="错误"> 对不起，我们无法提供任何的旅行选择，请更改您的旅行时间在31天之内 </div>
+<div id="dialogs2" style="display:none" title="错误"> 对不起，我们无法提供任何的旅行选择，请确保你的旅行时间在2天以上 </div>
+<div id="dialogs3" style="display:none" title="错误"> 起飞和降落应该在不同的地点 </div>
+<form name="ResPkgSearchForm" id="ResPkgSearchForm" method="post" action="" target="_parent">
+  <input type="hidden" id="isFlexSearch" name="isFlexSearch"/>
+  <input type="hidden" id="discountCouponNo" name="discountCouponNo" />
+  <input type="hidden" id="place" name="place" />
+  <input type="hidden" id="transectionId" name="transectionId" />
+  <input type="hidden" id="engLoaded" name="engLoaded" value="" />
+  <input type="hidden" id="checkInDate" name="checkInDate" />
+  <input type="hidden" id="selectedHotelRideCode" name="selectedHotelRideCode" />
+  <input type="hidden" id="checkOutDate" name="checkOutDate" />
+  <input type="hidden" id="checkInTime" name="checkInTime" />
+  <input type="hidden" id="checkOutTime" name="checkOutTime" />
+  <input type="hidden" id="cityCode" name="cityCode" />
+  <input type="hidden" id="cityName" name="cityName" />
+  <input type="hidden" id="countryCode" name="countryCode" />
+  <input type="hidden" id="countryName" name="countryName" />
+  <input type="hidden" id="stateCode" name="stateCode" />
+  <input type="hidden" id="startingLocationName" name="startingLocationName" />
+  <input type="hidden" id="startingLocationCode" name="startingLocationCode" />
+  <input type="hidden" id="startingCountryCode" name="startingCountryCode" />
+  <input type="hidden" id="endingCountryCode" name="endingCountryCode" />
+  <input type="hidden" id="endingLocationName" name="endingLocationName" />
+  <input type="hidden" id="endingLocationCode" name="endingLocationCode" />
+  <input type="hidden" id="startingFligtLocationTwoName" name="startingFligtLocationTwoName" />
+  <input type="hidden" id="startingFligtLocationTwoCode" name="startingFligtLocationTwoCode" />
+  <input type="hidden" id="endingFligtLocationTwoName" name="endingFligtLocationTwoName" />
+  <input type="hidden" id="endingFligtLocationTwoCode" name="endingFligtLocationTwoCode" />
+  <input type="hidden" id="flightCheckInDateTwo" name="flightCheckInDateTwo" />
+  <input type="hidden" id="flightCheckInTimeTwo" name="flightCheckInTimeTwo" />
+  <input type="hidden" id="startingFligtLocationThreeName" name="startingFligtLocationThreeName" />
+  <input type="hidden" id="startingFligtLocationThreeCode" name="startingFligtLocationThreeCode" />
+  <input type="hidden" id="endingFligtLocationThreeName" name="endingFligtLocationThreeName" />
+  <input type="hidden" id="endingFligtLocationThreeCode" name="endingFligtLocationThreeCode" />
+  <input type="hidden" id="flightCheckInDateThree" name="flightCheckInDateThree" />
+  <input type="hidden" id="flightCheckInTimeThree" name="flightCheckInTimeThree" />
+  <input type="hidden" id="startingFligtLocationFourName" name="startingFligtLocationFourName" />
+  <input type="hidden" id="startingFligtLocationFourCode" name="startingFligtLocationFourCode" />
+  <input type="hidden" id="endingFligtLocationFourName" name="endingFligtLocationFourName" />
+  <input type="hidden" id="endingFligtLocationFourCode" name="endingFligtLocationFourCode" />
+  <input type="hidden" id="flightCheckInDateFour" name="flightCheckInDateFour" />
+  <input type="hidden" id="flightCheckInTimeFour" name="flightCheckInTimeFour" />
+  <input type="hidden" id="startingFligtLocationFiveName" name="startingFligtLocationFiveName" />
+  <input type="hidden" id="startingFligtLocationFiveCode" name="startingFligtLocationFiveCode" />
+  <input type="hidden" id="endingFligtLocationFiveName" name="endingFligtLocationFiveName" />
+  <input type="hidden" id="endingFligtLocationFiveCode" name="endingFligtLocationFiveCode" />
+  <input type="hidden" id="flightCheckInDateFive" name="flightCheckInDateFive" />
+  <input type="hidden" id="flightCheckInTimeFive" name="flightCheckInTimeFive" />
+  <input type="hidden" id="numberOfNights" name="numberOfNights" />
+  <input type="hidden" id="numberOfRooms" name="numberOfRooms" />
+  <input type="hidden" id="numberOfAdults" name="numberOfAdults" />
+  <input type="hidden" id="numberOfChilds" name="numberOfChilds" />
+  <input type="hidden" id="childAges" name="childAges" />
+  <input type="hidden" id="numberOfInfants" name="numberOfInfants" />
+  <input type="hidden" id="numberOfSeniors" name="numberOfSeniors" />
+  <input type="hidden" id="portalBEC" name="portalBEC"  value="Y"/>
+  <input type="hidden" id="starRating" name="starRating" />
+  <input type="hidden" id="hotelType" name="hotelType" />
+  <input type="hidden" id="airLine" name="airLine" />
+  <input type="hidden" id="carType" name="carType" />
+  <input type="hidden" id="portal" name="portal"  value="rezbase_v3" />
+  <input type="hidden" id="userCode" name="userCode" />
+  <input type="hidden" id="userName" name="userName" />
+  <input type="hidden" id="userPassword" name="userPassword" />
+  <input type="hidden" id="forwardURL" name="forwardURL" />
+  <input type="hidden" id="userType" name="userType" />
+  <input type="hidden" id="partnerName" name="partnerName" />
+  <input type="hidden" id="partnerId" name="partnerId" />
+  <input type="hidden" id="tourOperatorLevel" name="tourOperatorLevel" />
+  <input type="hidden" id="tourOperatorName" name="tourOperatorName" />
+  <input type="hidden" id="loggedSuperAgentId" name="loggedSuperAgentId" />
+  <input type="hidden" id="partnerCode" name="partnerCode" />
+  <input type="hidden" id="partnerType" name="partnerType" value="DC" />
+  <input type="hidden" id="subAgentId" name="subAgentId" />
+  <input type="hidden" id="webSite" name="webSite" value="MAIN" />
+  <input type="hidden" id="bookingChannel" name="bookingChannel" value="WEB" />
+  <input type="hidden" id="vacationPkg" name="vacationPkg" />
+  <input type="hidden" id="cacheKey" name="cacheKey" />
+  <input type="hidden" id="sellingCurrency" name="sellingCurrency" />
+  <input type="hidden" id="sessionName" name="sessionName" />
+  <input type="hidden" id="retrieveExistingBookings" name="retrieveExistingBookings" />
+  <input type="hidden" id="existingReservationNo" name="existingReservationNo" />
+  <input type="hidden" id="isbackOfficePartnerLink" name="isbackOfficePartnerLink" />
+  <input type="hidden" id="enabledPublicDCLogin" name="enabledPublicDCLogin" />
+  <input type="hidden" id="enableConsumerRegion" name="enableConsumerRegion" />
+  <input type="hidden" id="actionTyp" name="actionTyp" />
+  <input type="hidden" id="bookType" name="bookType" />
+  <input type="hidden" id="consumerCountryId" name="consumerCountryId" />
+  <input type="hidden" id="consumerRegionId" name="consumerRegionId" />
+  <input type="hidden" id="languageCode" name="languageCode" />
+  <input type="hidden" id="consumerCurrencyCode" name="consumerCurrencyCode" />
+  <input type="hidden" id="guestList" name="guestList" />
+  <input type="hidden" id="seatClass" name="seatClass" />
+  <input type="hidden" id="tripType" name="tripType" />
+  <input type="hidden" id="actionPath" name="actionPath" />
+  <input type="hidden" id="pkgType" name="pkgType" />
+  <input type="hidden" id="affCode" name="affCode" value="-"/>
+  <input type="hidden" id="targetField" name="targetField" />
+  <input type="hidden" id="partnerCategory" name="partnerCategory" />
+  <input type="hidden" name="destinationCountry" id="destinationCountry" />
+  <input type="hidden" name="activityTypeId" id="activityTypeId" />
+  <!-- Hotel filters -->
+  <input type="hidden" id="hotelStarId" name="hotelStarId" />
+  <input type="hidden" id="hotelTypeId" name="hotelTypeId" />
+  <input type="hidden" id="hotelName" name="hotelName" />
+  <input type="hidden" id="priceLevelFrom" name="priceLevelFrom" />
+  <input type="hidden" id="priceLevelTo" name="priceLevelTo" />
+  <input type="hidden" id="availableHotels" name="availableHotels" />
+  <input type="hidden" id="onRequestHotels" name="onRequestHotels" />
+  <input type="hidden" id="starRating_Hotels" name="starRating_Hotels" />
+  <input type="hidden" id="sortHotelBy" name="sortHotelBy" />
+  <!-- For flights -->
+  <input type="hidden" id="nonStopStatus" name="nonStopStatus" />
+  <!-- For transfers -->
+  <input type="hidden" id="pickUpCode" name="pickUpCode" />
+  <input type="hidden" id="dropOffCode" name="dropOffCode" />
+  <input type="hidden" id="dropOffCityName" name="dropOffCityName" />
+  <input type="hidden" id="pickUpPointName" name="pickUpPointName" />
+  <input type="hidden" id="departPointName" name="departPointName" />
+  <input type="hidden" id="dropOffCityCode" name="dropOffCityCode" />
+  <input type="hidden" id="pickUpPointCode" name="pickUpPointCode" />
+  <input type="hidden" id="departPointCode" name="departPointCode" />
+  <input type="hidden" id="transferTime" name="transferTime" />
+  <input type="hidden" id="serviceHost" name="serviceHost" />
+  <input type="hidden" id="serviePortal" name="serviePortal" />
+  <!-- Fixed package spacific details -->
+  <input type="hidden" id="numberofdays" name="numberofdays" />
+  <input type="hidden" id="includingflight" name="includingflight" />
+  <input type="hidden" id="selectedFixedPackageTypeCode" name="selectedFixedPackageTypeCode" />
+  <input type="hidden" id="selectedFixedPackageTypeName" name="selectedFixedPackageTypeName" />
+  <input type="hidden" id="ipAddress" name="ipAddress" />
+  <input type="hidden" id="clientCountryCode" name="clientCountryCode" />
+  
+  
+</form>
+<form name="form1" method="post" action="" id="form1" >
+  <input type="hidden" name="pkgType" value="H"/>
+  <div id="bec_wrapper_div" style="display:none;" class="bec-main-wrapper">
+  <div id="tabs"> 
+  <a href="#" class="mobile-menu">Plan 旅行类别<i class="fa fa-bars fa-2"></i> </a>
+    <ul id="ribbon" class="icons  chinese-language-bec">
+      <li id="fLi"><a class="flights mobile-hide-menu"  href="flights.html"><span class="flight-icon mobile-hide-menu">&nbsp;</span> 机票  </a></li>
+      <li id="hLi"><a class="hotels mobile-hide-menu"  href="hotel.html"><span class="hotel-icon mobile-hide-menu">&nbsp;</span> 酒店  </a></li>
+      <li id="aLi"><a class="activities mobile-hide-menu" href="activities.html"><span class="activity-icon mobile-hide-menu">&nbsp;</span> 景点门票</a></li>
+      <li id="vLi"><a class="holidays mobile-hide-menu" href="holidays.html"><span class="fh-icon mobile-hide-menu">&nbsp;</span> 机票 + 酒店 </a></li>
+    </ul>
+    <div id="flights" class="bec_container"></div>
+    <div id="hotels" class="bec_container"></div>
+    <div id="activities" class="bec_container"></div>
+    <div id="holidays" class="bec_container"></div>
+  </div>
+</form >
+<script>
+try{
+if(!internalBEC){
+	$("#tabs").hide('bec_wrapper_div');
+}
+}catch(e){alert(e);}
+$("#tabs").tabs(3).addClass('ui-tabs-vertical ui-helper-clearfix');
+$("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
+try{
+	var w = getUrlVars()["wjt"];
+	var wjtname = w.split("wj_")[1];
+	bec_name = "bec_container_frame_"+ wjtname;
+}catch(e){}
+</script>
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/plugin.js"></script>
+<script src="js/prefixfree.min.js"></script>
+</body>
+</html>

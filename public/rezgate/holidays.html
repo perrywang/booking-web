@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Holidays</title>
+<script src="js/autocomplete.js"></script>
+<script src="js/scripts.js?v=1"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+/*$('select#V_consumerCurrencyCode').selectmenu();
+$('select#V_Country').selectmenu();
+$('select#Air_DepTime').selectmenu();
+$('select#Air_RetTime').selectmenu();
+$('select#V_Country').selectmenu();
+$('select#norooms_V').selectmenu();
+$('select#hType_v').selectmenu();
+$('select.minshort_texf').selectmenu();
+$('select#star_rating_V').selectmenu();
+$('select#star_rating_V').selectmenu();
+$('select#star_rating_V').selectmenu();*/
+
+						   });
+			
+var DatePicked = function() {
+		 
+		 		var departure = $("#vac_departure_temp");
+                var arrival = $("#vac_arrival_temp");
+				var nights = $("#V_nights");
+				var triggeringElement = $(this);
+				var minArrivalDate = new Date();
+								
+				var departureDate= departure.datepicker("getDate") ;
+					if (departureDate != null) {						
+						departureDate.setDate(departureDate.getDate() + 1);
+						arrival.datepicker('option', 'minDate',departureDate);						
+					} else {
+                        
+						minArrivalDate.setDate(minArrivalDate.getDate() +2);
+						
+						var month = minArrivalDate.getMonth() + 1;
+						month = ((""+String(month).length ==1) ? ("0"+month) : month);
+    					var todDate = month + '/' + minArrivalDate.getDate() + '/' + minArrivalDate.getFullYear();
+						arrival.val(todDate);
+							 
+					    var myDate = new Date();
+   						var month = myDate.getMonth() + 1;
+   						month = ((""+String(month).length ==1) ? ("0"+month) : month);
+    					var todDates = month + '/' + myDate.getDate()+ '/' + myDate.getFullYear();
+    					
+    					departure.val(todDates);
+										
+					}						
+					
+					var arrivalDate = arrival.datepicker("getDate");			
+			   
+					if (departureDate != null && arrivalDate != null && triggeringElement.attr("id") != "V_nights") {
+						var oneDay = 1000*60*60*24;
+                      	var arDateVal = Date.UTC(arrivalDate.getFullYear(),arrivalDate.getMonth(),arrivalDate.getDate(),0,0,0);
+                        var depDateVal = Date.UTC(departureDate.getFullYear(),departureDate.getMonth(),departureDate.getDate(),0,0,0);
+                        var difference = Math.ceil(((arDateVal - depDateVal) / oneDay)+1);
+                        nights.val(difference); 
+					   
+					 		
+						if (difference>30) {
+							$( "#dialogs" ).dialog({ resizable: false,modal: true });
+							nights.val("1");
+							var newArrivalDate = new Date();							
+                     		arrival.datepicker("setDate", newArrivalDate);							
+						}
+						$("#vac_departure").val(getOriginalDateFormat(departure.datepicker("getDate")));
+				        $("#vac_arrival").val(getOriginalDateFormat(arrival.datepicker("getDate")));	
+					 
+						
+                	} else if (departureDate != null && arrivalDate != null &&  triggeringElement.attr("id") == "V_nights") {
+                        var nightsEntered = parseInt(nights.val());
+						
+                        //alert("check")
+							if (nightsEntered <= 30 ) {
+					
+								minArrivalDate.setDate(minArrivalDate.getDate() +nightsEntered + 1);
+								arrival.datepicker("setDate", minArrivalDate);
+						
+							
+                    
+							} else {
+                      
+								$( "#dialogs" ).dialog({ resizable: false,modal: true });
+								nights.val("1");
+                   			}
+                        $("#vac_departure").val(getOriginalDateFormat(departure.datepicker("getDate")));
+				        $("#vac_arrival").val(getOriginalDateFormat(arrival.datepicker("getDate")));	
+                }
+					
+			
+        }
+ 
+	 $(function() {
+					$("#vac_arrival_temp").datepicker({
+						dateFormat: dateFormatKey,	
+						defaultDate: +3,
+						onSelect: DatePicked,
+						showAnim:'slide',
+						buttonText: 'Show Calendar',
+						minDate: '3d'
+					});
+					
+					$("#V_nights").change(DatePicked);
+						DatePicked();
+					});
+ 
+ $(function () {
+				$("#vac_departure_temp").datepicker({
+				dateFormat: dateFormatKey,
+				defaultDate: +2,	
+				onSelect: DatePicked,
+				showAnim:'slide',
+				buttonText: 'Show Calendar',				
+				minDate: '2d'
+				});
+             });
+			
+           	$("#vac_departure_temp").val(getDateFormat($("#vac_departure_temp").datepicker("getDate")));
+ 			$("#vac_departure").val(getOriginalDateFormat($("#vac_departure_temp").datepicker("getDate")));
+	        $("#vac_arrival_temp").val(getDateFormat($("#vac_arrival_temp").datepicker("getDate")));
+	        $("#vac_arrival").val(getOriginalDateFormat($("#vac_arrival_temp").datepicker("getDate")));	
+           	becConfigLoad();
+        	becFilterLoad('V');
+
+</script>
+</head>
+<body>
+<div class="main_holder" id="vacationDisplay" style="display:block;">
+  <div class="bec_container_div cf">
+    <ul class="row10">
+      <div class="residence-country-block row10" id="v_res_country_div"   style="display:none;">
+        <div class="option-main-label row3" id="vac_country_lbl_div">
+          <h1>居住国 ?</h1>
+        </div>
+        <div class="row7" id="vac_country_div">
+          <select name="V_Country" id="V_Country" onChange=""  class="user-residence-select-holidays" validate="formV" require="Please Enter Country of Residence">
+            <option value='' selected="selected">-Select a Country-</option>
+            <option value='0~AF'>Afghanistan</option>
+            <option value='0~AL'>Albania</option>
+            <option value='0~DZ'>Algeria</option>
+            <option value='0~AS'>American Samoa</option>
+            <option value='0~AD'>Andorra</option>
+            <option value='0~AO'>Angola</option>
+            <option value='0~AI'>Anguilla</option>
+            <option value='0~AQ'>Antarctica</option>
+            <option value='0~AG'>Antigua And Barbuda</option>
+            <option value='0~AR'>Argentina</option>
+            <option value='0~AM'>Armenia</option>
+            <option value='0~AW'>Aruba</option>
+            <option value='0~AU'>Australia</option>
+            <option value='0~AT'>Austria</option>
+            <option value='0~AZ'>Azerbaijan</option>
+            <option value='0~BS'>Bahamas</option>
+            <option value='0~BH'>Bahrain</option>
+            <option value='0~BD'>Bangladesh</option>
+            <option value='0~BB'>Barbados</option>
+            <option value='0~BY'>Belarus</option>
+            <option value='0~BE'>Belgium</option>
+            <option value='0~BZ'>Belize</option>
+            <option value='0~BJ'>Benin</option>
+            <option value='0~BM'>Bermuda</option>
+            <option value='0~BT'>Bhutan</option>
+            <option value='0~BO'>Bolivia</option>
+            <option value='0~BA'>Bosnia and Herzegovina</option>
+            <option value='0~BW'>Botswana</option>
+            <option value='0~BV'>Bouvet Island</option>
+            <option value='0~BR'>Brazil</option>
+            <option value='0~IO'>British Indian Ocean Territory</option>
+            <option value='0~BN'>Brunei</option>
+            <option value='0~BG'>Bulgaria</option>
+            <option value='0~BF'>Burkina Faso</option>
+            <option value='0~BI'>Burundi</option>
+            <option value='0~KH'>Cambodia</option>
+            <option value='0~CM'>Cameroon</option>
+            <option value='0~CA'>Canada</option>
+            <option value='0~CV'>Cape Verde</option>
+            <option value='0~KY'>Cayman Islands</option>
+            <option value='0~CF'>Central African Republic</option>
+            <option value='0~TD'>Chad</option>
+            <option value='0~CL'>Chile</option>
+            <option value='0~CN'>China</option>
+            <option value='0~CX'>Christmas Island</option>
+            <option value='0~CC'>Cocos (Keeling) Islands</option>
+            <option value='0~CO'>Colombia</option>
+            <option value='0~KM'>Comoros</option>
+            <option value='0~CG'>Congo</option>
+            <option value='0~CD'>Congo Democractic Republic</option>
+            <option value='0~CK'>Cook Islands</option>
+            <option value='0~CR'>Costa Rica</option>
+            <option value='0~CI'>Cote DIvoire (Ivory Coast)</option>
+            <option value='0~HR'>Croatia (Hrvatska)</option>
+            <option value='0~CU'>Cuba</option>
+            <option value='0~CR'>Curacao</option>
+            <option value='0~CY'>Cyprus</option>
+            <option value='0~CZ'>Czech Republic</option>
+            <option value='0~DK'>Denmark</option>
+            <option value='0~DJ'>Djibouti</option>
+            <option value='0~DM'>Dominica</option>
+            <option value='0~DO'>Dominican Republic</option>
+            <option value='0~TP'>East Timor</option>
+            <option value='0~EC'>Ecuador</option>
+            <option value='0~EG'>Egypt</option>
+            <option value='0~SV'>El Salvador</option>
+            <option value='0~GQ'>Equatorial Guinea</option>
+            <option value='0~ER'>Eritrea</option>
+            <option value='0~EE'>Estonia</option>
+            <option value='0~ET'>Ethiopia</option>
+            <option value='0~FK'>Falkland Islands (Islas Malvinas)</option>
+            <option value='0~FO'>Faroe Islands</option>
+            <option value='0~FJ'>Fiji</option>
+            <option value='0~FI'>Finland</option>
+            <option value='0~FR'>France</option>
+            <option value='0~GF'>French Guiana</option>
+            <option value='0~PF'>French Polynesia</option>
+            <option value='0~TF'>French Southern Territories</option>
+            <option value='0~GA'>Gabon</option>
+            <option value='0~GM'>Gambia</option>
+            <option value='0~GE'>Georgia</option>
+            <option value='4~DE'>Germany</option>
+            <option value='0~GH'>Ghana</option>
+            <option value='0~GI'>Gibraltar</option>
+            <option value='0~GR'>Greece</option>
+            <option value='0~GL'>Greenland</option>
+            <option value='0~GD'>Grenada</option>
+            <option value='0~GP'>Guadeloupe</option>
+            <option value='0~GU'>Guam</option>
+            <option value='0~GT'>Guatemala</option>
+            <option value='0~GN'>Guinea</option>
+            <option value='0~GW'>Guinea-Bissau</option>
+            <option value='0~GY'>Guyana</option>
+            <option value='0~HT'>Haiti</option>
+            <option value='0~HM'>Heard and McDonald Islands</option>
+            <option value='0~HN'>Honduras</option>
+            <option value='0~HK'>Hong Kong</option>
+            <option value='0~HU'>Hungary</option>
+            <option value='0~IS'>Iceland</option>
+            <option value='0~IN'>India</option>
+            <option value='0~ID'>Indonesia</option>
+            <option value='0~IR'>Iran</option>
+            <option value='0~IQ'>Iraq</option>
+            <option value='0~IE'>Ireland</option>
+            <option value='0~IL'>Israel</option>
+            <option value='2~IT'>Italy</option>
+            <option value='0~JM'>Jamaica</option>
+            <option value='0~JP'>Japan</option>
+            <option value='0~JO'>Jordan</option>
+            <option value='0~KZ'>Kazakhstan</option>
+            <option value='0~KE'>Kenya</option>
+            <option value='0~KI'>Kiribati</option>
+            <option value='0~KR'>Korea</option>
+            <option value='1~KW'>Kuwait</option>
+            <option value='0~KG'>Kyrgyzstan</option>
+            <option value='0~LA'>Laos</option>
+            <option value='0~LV'>Latvia</option>
+            <option value='0~LB'>Lebanon</option>
+            <option value='0~LS'>Lesotho</option>
+            <option value='0~LR'>Liberia</option>
+            <option value='0~LY'>Libya</option>
+            <option value='0~LI'>Liechtenstein</option>
+            <option value='0~LT'>Lithuania</option>
+            <option value='0~LU'>Luxembourg</option>
+            <option value='0~MO'>Macau</option>
+            <option value='0~MK'>Macedonia</option>
+            <option value='0~MG'>Madagascar</option>
+            <option value='0~MW'>Malawi</option>
+            <option value='0~MY'>Malaysia</option>
+            <option value='0~MV'>Maldives</option>
+            <option value='0~ML'>Mali</option>
+            <option value='0~MT'>Malta</option>
+            <option value='0~MH'>Marshall Islands</option>
+            <option value='0~MQ'>Martinique</option>
+            <option value='0~MR'>Mauritania</option>
+            <option value='0~MU'>Mauritius</option>
+            <option value='0~YT'>Mayotte</option>
+            <option value='0~MX'>Mexico</option>
+            <option value='0~FM'>Micronesia</option>
+            <option value='0~MD'>Moldova</option>
+            <option value='0~MC'>Monaco</option>
+            <option value='0~MN'>Mongolia</option>
+            <option value='0~ME'>Montenegro</option>
+            <option value='0~MS'>Montserrat</option>
+            <option value='0~MA'>Morocco</option>
+            <option value='0~MZ'>Mozambique</option>
+            <option value='0~MM'>Myanmar</option>
+            <option value='0~NA'>Namibia</option>
+            <option value='0~NR'>Nauru</option>
+            <option value='0~NP'>Nepal</option>
+            <option value='0~NL'>Netherlands</option>
+            <option value='0~AN'>Netherlands Antilles</option>
+            <option value='0~NC'>New Caledonia</option>
+            <option value='0~NZ'>New Zealand</option>
+            <option value='0~NI'>Nicaragua</option>
+            <option value='0~NE'>Niger</option>
+            <option value='0~NG'>Nigeria</option>
+            <option value='0~NU'>Niue</option>
+            <option value='0~NF'>Norfolk Island</option>
+            <option value='0~NY'>North Cyprus</option>
+            <option value='0~KP'>North Korea</option>
+            <option value='0~MP'>Northern Mariana Islands</option>
+            <option value='0~NO'>NorthernIreland</option>
+            <option value='0~NO'>Norway</option>
+            <option value='1~OM'>Oman</option>
+            <option value='0~PK'>Pakistan</option>
+            <option value='0~PW'>Palau</option>
+            <option value='0~PA'>Panama</option>
+            <option value='0~PG'>Papua new Guinea</option>
+            <option value='0~PY'>Paraguay</option>
+            <option value='0~PE'>Peru</option>
+            <option value='0~PH'>Philippines</option>
+            <option value='0~PN'>Pitcairn Island</option>
+            <option value='0~PL'>Poland</option>
+            <option value='0~PT'>Portugal</option>
+            <option value='0~PR'>Puerto Rico</option>
+            <option value='1~QA'>Qatar</option>
+            <option value='0~RE'>Reunion</option>
+            <option value='0~RO'>Romania</option>
+            <option value='0~RU'>Russia</option>
+            <option value='0~RW'>Rwanda</option>
+            <option value='0~SH'>Saint Helena</option>
+            <option value='0~KN'>Saint Kitts And Nevis</option>
+            <option value='0~LC'>Saint Lucia</option>
+            <option value='0~PM'>Saint Pierre and Miquelon</option>
+            <option value='0~VC'>Saint Vincent And The Grenadines</option>
+            <option value='0~WS'>Samoa</option>
+            <option value='0~SM'>San Marino</option>
+            <option value='0~MF'>San Martin</option>
+            <option value='0~ST'>Sao Tome and Principe</option>
+            <option value='0~SA' >Saudi Arabia</option>
+            <option value='0~SN'>Senegal</option>
+            <option value='0~RS'>Serbia</option>
+            <option value='0~SC'>Seychelles</option>
+            <option value='0~SL'>Sierra Leone</option>
+            <option value='0~SG'>Singapore</option>
+            <option value='0~SK'>Slovakia</option>
+            <option value='0~SI'>Slovenia</option>
+            <option value='0~SB'>Solomon Islands</option>
+            <option value='0~SO'>Somalia</option>
+            <option value='0~ZA'>South Africa</option>
+            <option value='0~AG'>South Korea</option>
+            <option value='3~ES'>Spain</option>
+            <option value='0~LK' >Sri Lanka</option>
+            <option value='0~SD'>Sudan</option>
+            <option value='0~SR'>Suriname</option>
+            <option value='0~SJ'>Svalbard And Jan Mayen Islands</option>
+            <option value='0~SZ'>Swaziland</option>
+            <option value='0~SE'>Sweden</option>
+            <option value='0~CH'>Switzerland</option>
+            <option value='0~SY'>Syria</option>
+            <option value='0~TW'>Taiwan</option>
+            <option value='0~TJ'>Tajikistan</option>
+            <option value='0~TZ'>Tanzania</option>
+            <option value='0~TH'>Thailand</option>
+            <option value='0~TG'>Togo</option>
+            <option value='0~TK'>Tokelau</option>
+            <option value='0~TO'>Tonga</option>
+            <option value='0~TT'>Trinidad And Tobago</option>
+            <option value='0~TN'>Tunisia</option>
+            <option value='0~TR'>Turkey</option>
+            <option value='0~TM'>Turkmenistan</option>
+            <option value='0~TC'>Turks And Caicos Islands</option>
+            <option value='0~TV'>Tuvalu</option>
+            <option value='0~UG'>Uganda</option>
+            <option value='0~UA'>Ukraine</option>
+            <option value='1~AE'>United Arab Emirates</option>
+            <option value='5~UK'>United Kingdom</option>
+            <option value='0~UY'>Uruguay</option>
+            <option value='0~UM'>US Minor Outlying Islands</option>
+            <option value='0~US'>USA</option>
+            <option value='0~UZ'>Uzbekistan</option>
+            <option value='0~VU'>Vanuatu</option>
+            <option value='0~VA'>Vatican City State (Holy See)</option>
+            <option value='0~VE'>Venezuela</option>
+            <option value='0~VN'>Vietnam</option>
+            <option value='0~VG'>Virgin Islands (British)</option>
+            <option value='0~VI'>Virgin Islands (US)</option>
+            <option value='0~WF'>Wallis And Futuna Islands</option>
+            <option value='0~YE'>Yemen</option>
+            <option value='0~YU'>Yugoslavia</option>
+            <option value='0~ZM'>Zambia</option>
+            <option value='0~ZW'>Zimbabwe</option>
+          </select>
+        </div>
+      </div>
+      <div class="polka-dots"></div>
+      <div class="option-main-label">
+        <h1>目的地 ?</h1>
+      </div>
+      <ul class="location-inputs">
+        <li class="flight-departure">
+          <div>
+            <label class="flight-passenger-label flight-label label-bg-common">出发城市</label>
+          </div>
+          <div class="flight-departure-input">
+            <input name="V_DepFrom" id="V_DepFrom" type="text" class="user-country-select italic" validate="formV" require="出发城市" placeholder="(请用英文输入）城市或机场"/>
+            <input type="hidden" name="V_DepFromHid" id="V_DepFromHid" value="" validate="formV" require="出发城市" />
+          </div>
+        </li>
+        <li class="flight-arrival">
+          <div>
+            <label class="flight-passenger-label flight-label label-bg-common">到达城市</label>
+          </div>
+          <div class="flight-arrival-input">
+            <input name="V_RetLoc" id="V_RetLoc" type="text" class="user-country-select italic" validate="formV" require="Please Enter Arrival Location" placeholder="(请用英文输入）城市或机场"/>
+            <input type="hidden" name="V_RetLocHid" id="V_RetLocHid" value="" validate="formV" require="Please Enter Arrival Location" />
+            <input type="hidden"  name="trip_type_v" id="trip_type_v" value="R" />
+          </div>
+        </li>
+      </ul>
+      <ul class="date-time-block">
+        <li class="flight-times">
+          <div>
+            <div>
+              <label class="option-sub-label">出发日期</label>
+            </div>
+            <div>
+              <input type="text" id="vac_departure_temp" name="vac_departure_temp" readonly class="user-date-select" validate="formV" require="Please Select Depart Date" />
+              <input type="hidden" id="vac_departure" name="vac_departure" readonly validate="formV" require="Please Select Depart Date" />
+              <input name="V_nights" id="V_nights" type="text"  style="display:none" class="textfsmall" />
+            </div>
+          </div>
+          <div>
+            <div>
+              <label class="option-sub-label" translate="no">出发时间</label>
+            </div>
+            <div>
+              <select name="Air_DepTime" id="Air_DepTime" class="user-time-select">
+                <option value="00:00" selected="selected">任意时间</option>
+                <option value="06:00@6@6">早上</option>
+                <option value="14:00@2@2">下午</option>
+                <option value="20:00@4@4">晚上</option>
+              </select>
+            </div>
+          </div>
+        </li>
+        <li class="flight-times">
+          <div>
+            <div>
+              <label class="option-sub-label">回程日期</label>
+            </div>
+            <div>
+              <input type="text" name="vac_arrival_temp" id="vac_arrival_temp" readonly class="user-date-select"  validate="formV" require="Please Select Arrival Date"   />
+              <input type="hidden" name="vac_arrival" id="vac_arrival" readonly validate="formV" require="Please Select Arrival Date"   />
+            </div>
+          </div>
+          <div>
+            <div>
+              <label class="option-sub-label">回程时间</label>
+            </div>
+            <div>
+              <select name="Air_RetTime" id="Air_RetTime" class="user-time-select">
+                <option value="00:00" selected="selected">任意时间</option>
+                <option value="06:00@6@6">早上</option>
+                <option value="14:00@2@2">下午</option>
+                <option value="20:00@4@4">晚上</option>
+              </select>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <li style="display: none;" id="flax_container_div" >
+        <input type="checkbox" name="isFlexSearch_V" id="isFlexSearch_V" class="radio_top" />
+        <label>上述日期 <span class="fright ashtext fonts10 paddT5L5">(3天前后出行的也可以接受)</span></label>
+      </li>
+      <div class="polka-dots"></div>
+      <li class="option-main-label">
+        <h1>多少人 ?</h1>
+      </li>
+        <li class="holiday-pax-container">
+      <ul class="package-passenger-block holiday-pax-rooms">
+        <li>
+          <label class="option-sub-label">房间</label>
+        </li>
+        <li>
+          <select id="norooms_V" name="norooms_V" class="user-options-select" onChange="roomocc(this.id,this.value);resizeContainer();">
+            <option value="1" selected="selected">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </li>
+      </ul>
+	  
+	  <ul class="package-passenger-block holiday-pax-passeng">
+        <li>
+          <div id="roomComboV"></div>
+        </li>
+      </ul>
+	  </li>
+      <li class="morefilters" style="display:none;">
+        <div class="polka-dots"></div>
+        <ul class="holidays-hidden-options">
+          <li id="pref_airline_V" >
+            <label class="option-sub-label display-block">希望乘坐的航空公司</span></label>
+            <input id="Air_line_V" name="Air_line_V" type="text" class="user-options-select row10 italic" placeholder="请输入航空公司代码" onClick="return validate('formAN');" validate="formAN" require="航空公司代码"  />
+          </li>
+          <li id="air_class_V">
+            <label class="option-sub-label display-block">舱位</label>
+            <select name="Air_FlightClass" id="Air_FlightClass" class="user-options-select row10">
+              <option value="Economy" selected="selected">经济舱</option>
+              <option value="Business">公务舱</option>
+              <option value="First">头等舱</option>
+            </select>
+          </li>
+          <li id="star_rating_div_V" >
+            <label class="option-sub-label display-block">星级</label>
+            <select id="star_rating_V" name="greeknumber" class="user-options-select row10">
+              <option value="ALL">全选</option>
+                <option value="1EST">1 星</option>
+                <option value="2EST">2 星</option>
+                <option value="3EST">3 星</option>
+                <option value="4EST">4 星</option>
+                <option value="5EST">5 星</option>
+                <option value="6EST">6 星</option>
+                <option value="7EST">7 星</option>
+            </select>
+          </li>
+          <li id="hotel_type_V" >
+            <label class="option-sub-label display-block" translate="no">酒店类别</label>
+            <select id="hType_v" name="hType_v" class="user-options-select row10">
+				<option value="ALL">全选</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <option value="13">公寓</option>
+            </select>
+          </li>
+          <li id="promotionCodeDiv_V">
+            <label class="option-sub-label display-block" translate="no">促销代码</label>
+            <input type="text" class="user-options-select row10"" id="discountCoupon_No_V" name="discountCoupon_No_V">
+            </input>
+          </li>
+          <li class="fleft" id="pref_cur_V" >
+            <label class="option-sub-label display-block" translate="no">所需币种</label>
+            <select  name="V_consumerCurrencyCode" id="V_consumerCurrencyCode" class="user-options-select row10"" >
+              <option selected="selected" value="" style="display:none">请选择货币种类</option>
+              <option value="GBP">GBP</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="LKR">LKR</option>
+              <option value="MYR">MYR</option>
+              <option value="AUD">AUD</option>
+              <option value="CAN">CAN</option>
+              <option value="CHF">CHF</option>
+              <option value="INR">INR</option>
+              <option value="JOD">JOD</option>
+              <option value="AED">AED</option>
+              <option value="QAR">QAR</option>
+              <option value="SAR">SAR</option>
+              <option value="PHP">PHP</option>
+              <option value="DKK">DKK</option>
+              <option value="NOK">NOK</option>
+              <option value="SEK">SEK</option>
+              <option value="EGP">EGP</option>
+              <option value="BHD">BHD</option>
+              <option value="OMR">OMR</option>
+              <option value="PKR">PKR</option>
+              <option value="IQD">IQD</option>
+              <option value="KWD">KWD</option>
+            </select>
+          </li>
+          
+          <li class="fleft" id="hot_des_city_V"> 
+        	<label class="option-sub-label display-block" translate="no">酒店所在城市 &nbsp;</label>
+          	<input name="H_Loc_V" id="H_Loc_V" type="text" class="user-options-select row10" value="" validate="formV" require="目的地" autocomplete="off" onClick="return validate('formV');" />
+          	<input type="hidden" name="hid_H_Loc_V" id="hid_H_Loc_V" value="" validate="" require="Please Enter  Location"/>
+         </li>           
+        </ul>
+      </li>
+      <li>
+        <div class="hide_filter"><a href="#" class="show_filter" translate="no">高级搜索 <span id="arrow_down" class="arrow_down">&nbsp;&nbsp;&nbsp;</span></a></div>
+      </li>
+      <li class="cf"> <a onClick="return validate('formV');"   href="JavaScript:search('V');" class="search-button">
+        <div id="search_btns_h" translate="no">搜索</div>
+        </a> </li>
+    </ul>
+  </div>
+</div>
+<input type="hidden" id="target" name="target" />
+<script type="text/javascript">
+	setEngType("V")
+</script>
+</body>
+</html>

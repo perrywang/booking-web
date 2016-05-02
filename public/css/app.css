@@ -1,0 +1,123 @@
+.home-slide {
+    display: block;
+    height: 600px;
+    background-color: #00A6C7;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+}
+
+.slide-caption {
+    display: block;
+    position: absolute;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: Georgia, Helvetica, Tahoma, Arial, SimSun, "宋体","Microsoft YaHei", "微软雅黑", STXihei, "华文细黑", Heiti, "黑体", sans-serif;
+    text-shadow: 0px 0px 10px rgba(0,0,0,1);
+    top: 25%;
+    left: 7%;
+    max-width: 35%;
+    line-height: 1.2;
+    color: white;
+    letter-spacing: -1px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 12px;
+    border-radius: 5px;
+    text-align:justify;
+    text-justify:newspaper;
+}
+
+#home-detail{
+    margin-top: 5rem;
+}
+
+#home-gallery .loader {
+  margin-top:5em;
+}
+
+#home-partner {
+    padding-top: 4px;
+}
+
+#navigator .menu {
+    border-radius: 0;
+    font-size:small;
+}
+
+#header {
+    padding-top:20px;
+    padding-bottom:0;
+    min-height:60px;
+}
+
+#header a{
+    font-size:0.9em;
+}
+
+#navigator {
+    padding-top:0;
+    padding-bottom:0;
+}
+
+#navigator .menu .item {
+    font-size:16px;
+}
+
+#content {
+    padding-top:1px;
+}
+
+body {
+    background-color: #F0F0F0;
+}
+
+body a:not(.item):hover {
+    text-decoration: underline;
+}
+
+body p {
+  line-height: 1.7em;
+  text-align:justify;
+}
+
+body p,th,td,ul,a,a.ui.header,h2.ui.header,h3.ui.header,#menu_bar, .list>.item,.ui.items>.item>.content>div.header,.labelTitle {
+  font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+.ui.items>.item>.content>.header {
+  margin-bottom: 1em;
+  color:#4183c4;
+}
+
+#footer .title {
+    color:white;
+    margin-top:1em;
+}
+
+#footer .column p {
+    line-height:1.7em;
+    font-size:13px;
+}
+
+#footer ul {
+    font-size:13px;
+}
+
+#footer ul li a {
+    color:white;
+}
+
+#shopping-list, #shopping-detail {
+    margin-top: 2rem;
+}
+
+#vip_program_content  li {
+  line-height:3em;
+  font-weight:600;
+  color:darkblue;
+}
+
+#hotel_list .ui.horizontal.list:not(.celled)>.item:first-child{
+  margin-left:1em!important;
+  padding-left: 0!important;
+}

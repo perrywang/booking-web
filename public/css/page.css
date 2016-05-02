@@ -1,0 +1,17 @@
+.page_container {
+  margin-top: 3em;
+}
+
+#about_content h3 {
+  text-decoration: underline;
+}
+
+#about_vip_content li {
+  line-height:3em;
+  font-weight:600;
+  color:brown;
+}
+
+#terms_of_use li {
+  line-height:1.5em;
+}

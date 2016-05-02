@@ -1,0 +1,125 @@
+ul > li > div > div {
+	margin-bottom:0.5em;
+}
+
+ul.date-time-block, ul.location-inputs, ul.row10, ul.hotel-date-time-block, ul.activity-dates-block {
+	margin-top:0.5em;
+}
+
+ul.activity-main-block {
+	margin-top:0.85em;
+}
+
+#tabs, label, .ui-widget div select, .ui-widget div input, a.show_filter, a.hide_filter {
+	font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+div.option-sub-label, label.option-sub-label, ul.activity-destination-country > li > h1,span.option-sub-label,span.hotel-passenger-label-text{
+	color: white;
+	font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+div.option-main-label  > h1, li.option-main-label > h1, div.hotel-passenger-block > ul  > li.hotel-passenger-label-text {
+	color: white;
+	font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+div.polka-dots {
+	margin-bottom:1em;
+}
+
+ul.activity-dates-block > li > div > input {
+	width:139px;
+}
+
+a.search-button > div {
+	margin-right:23px;
+	margin-bottom:10px;
+	font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+a.search-button > div {
+	background-color: #108acc;
+}
+
+.search-button > div:hover {
+	background-color: #61A6CB!important;
+}
+
+.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-top li:hover {
+	background-color: #61A6CB!important;
+}
+
+li.width-fix-hotels{
+	width:412px;
+}
+
+#activity_Loc {
+	width:396px;
+}
+
+#H_Loc {
+	width:407px;
+}
+
+label.label-bg-common {
+	background-color:#108acc;
+	border:1px solid #108acc;
+}
+
+li.ui-state-default.ui-tabs-selected.ui-state-active.ui-corner-left {
+	background-color: #db2828!important;
+}
+
+input.user-country-select,input.user-date-select.hasDatepicker,input#V_RetLoc,select.user-time-select,input.user-country-select-hotel {
+  height:27px;
+}
+
+input#discountCoupon_No_F,input#discountCoupon_No_V,input#Air_line,input#Air_line_V,input#H_Loc_V, input#H_name, input#discountCoupon_No_H, input#activity_type, input#discountCoupon_No_A {
+	height:28px;
+}
+
+input.activity-country-select {
+	height:18px;
+}
+
+#dialogs, #dialogs2, #dialogs3 {
+	line-height:1.7em;
+	font-family: Georgia, Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+
+ul.package-passenger-block.holiday-pax-rooms > li:nth-child(2){
+	margin-right:1em;
+}
+
+div.bec_container_div.cf {
+	padding-left:15px;
+}
+
+select#R1occChildren_V {
+	width:50px;
+}
+
+td.ui-datepicker-unselectable.ui-state-disabled {
+	opacity: 0.4;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background-color: #108acc!important;
+}
+
+.ui-datepicker-calendar .ui-state-default{
+	color:white!important;
+}
+
+#ui-tabs-2 li > .polka-dots {
+	margin-top:1.1em;
+}
+
+li.ui-menu-item>a.ui-state-hover {
+	background-color: #108acc;
+}
+
+li.ui-menu-item>a.ui-state-hover:hover {
+	background-color: #108acc;
+}

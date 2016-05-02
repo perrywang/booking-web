@@ -1,0 +1,1091 @@
+@charset "utf-8";
+/* CSS Document */
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
+
+/*Common CSS Begin*/
+body {
+    font-family:'Roboto', Open Sans;
+    margin:0;
+    color:#666;
+}
+input, select{
+    color:#666;
+}
+.bec_container_div {
+    background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+    padding: 0 10px;
+}
+ol, ul {
+	list-style: none outside none;
+	padding: 0;
+}
+a {
+   outline: 0;
+}
+.bec-main-wrapper {
+	max-width: 620px;
+	margin:0 auto;
+}
+.hidden-elements{
+	visibility: hidden;
+}
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button, .ui-widget {
+	font-family:'Roboto', Open Sans;
+}
+.ui-tabs.ui-widget.ui-widget-content.ui-corner-all.ui-tabs-vertical.ui-helper-clearfix {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border: medium none;
+}
+.ui-state-default.ui-tabs-selected.ui-state-active.ui-corner-left {
+	background:#ff9900;
+}
+.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-top li:hover {
+	background:#ff9900;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background:#ffcb00;
+	border: 1px solid #ffcb00;
+}
+
+.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-top {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border: medium none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+	border-radius: 0;
+}
+.ui-tabs .ui-tabs-nav {
+	margin: 0;
+	padding:0;
+}
+.ui-tabs .ui-tabs-panel {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border-width: 0;
+	display: block;
+	padding:0;
+}
+.ui-tabs .ui-tabs-nav li a {
+	padding: 0.1em 0.9em;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	text-decoration: none;
+}
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	text-decoration: none;
+}
+.flights span, .hotels span, .cars span, .transfers span, .activities span, .holidays span,  .FixedPackages span {
+	font-size:14px;
+	color:#fff;
+}
+.option-main-label h1, .option-main-label {
+	font-size: 14px;
+	font-family:'Roboto', Open Sans;
+	color:#d40016;
+	font-weight: 500;
+}
+.option-sub-label h1, .option-sub-label {
+	font-size: 12px;
+	font-family:'Roboto', Open Sans;
+	color:#ff1f00;
+	font-weight: 400;
+	line-height: 18px;
+}
+.bec_container_div > ul, .morefilters > ul {
+	padding: 0;
+}
+.show_filter, .hide_filter {
+	font-size: 12px;
+	font-family:'Roboto', Open Sans;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.search-button {
+	text-decoration:none;
+	float: right;
+}
+.search-button > div {
+	font-size: 18px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background:#ffcb00;
+	font-family:'Roboto', Open Sans;
+	padding: 10px 35px;
+	color: #fff;
+	text-align: center;
+}
+.search-button > div:hover {
+	background:#ffcb00;
+}
+.user-residence-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 94%;
+}
+.user-country-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:3px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	line-height: 20px;
+}
+.user-dropdown-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.user-date-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+}
+.user-time-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px 3px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+}
+.user-input-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.user-options-select {
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width:100%;
+}
+.user-residence-select:focus, .user-options-select:focus, .flight-passenger-select:focus,  .user-input-select:focus, .user-time-select:focus, .user-date-select:focus,  .user-dropdown-select:focus, .user-country-select:focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.polka-dots {
+	border-bottom: 1px dotted #d40016;
+	display: block;
+	height: 2px;
+	margin: 5px 0;
+}
+.residence-country-block > div, .morefilters > ul > li {
+	display: inline-block;
+}
+.residence-country-block {
+	display: block;
+}
+.italic {
+	font-style: italic;
+}
+.row1 {
+	width:9%;
+}
+.row2 {
+	width:19%;
+}
+.row3 {
+	width:29%;
+}
+.row4 {
+	width:39%;
+}
+.row5 {
+	width:48%;
+}
+.row6 {
+	width:59%;
+}
+.row7 {
+	width:69%;
+}
+.row8 {
+	width:79%;
+}
+.row9 {
+	width:89%;
+}
+.row10 {
+	width:100%;
+	margin-top:0;
+}
+.display-block {
+	display:block;
+}
+.icons li a span {
+	background-position: center center;
+    display: block;
+    height: 30px;
+    width: 100%;
+}
+.flight-icon {
+	background:url("../images/flights.png") no-repeat;
+}
+.hotel-icon {
+	background:url("../images/hotels.png") no-repeat;
+}
+.car-icon {
+	background:url("../images/cars.png") no-repeat;
+}
+.transfer-icon {
+	background:url("../images/transfers.png") no-repeat;
+}
+.activity-icon {
+	background:url("../images/activities.png") no-repeat;
+}
+.fh-icon {
+	background:url("../images/flight-hotel.png") no-repeat;
+}
+.fp-icon {
+	background:url("../images/fixed-package.png") no-repeat;
+}
+.flight-icon:hover {
+	background:url("../images/flights-hover.png") no-repeat;
+    background-position: center;
+}
+.hotel-icon:hover {
+	background:url("../images/hotels-hover.png") no-repeat;
+    background-position: center;
+}
+.car-icon:hover {
+	background:url("../images/cars-hover.png") no-repeat;
+    background-position: center;
+}
+.transfer-icon:hover {
+	background:url("../images/transfers-hover.png") no-repeat;
+    background-position: center;
+}
+.activity-icon:hover {
+	background:url("../images/activities-hover.png") no-repeat;
+    background-position: center;
+}
+.fh-icon:hover {
+	background:url("../images/flight-hotel-hover.png") no-repeat;
+    background-position: center;
+}
+.fp-icon:hover {
+	background:url("../images/fixed-package-hover.png") no-repeat;
+    background-position: center;
+}
+.ui-widget-header .ui-icon {
+	background-image: url("../css/ui-lightness/images/ui-icons_ffffff_256x240.png");
+}
+.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all {
+	background: none repeat scroll 0 0 #FFFFFF;
+	font-size: 12px;
+}
+
+.ui-widget-header {
+	background:#006699;
+    color: #fff;
+	font-weight: 500;
+}
+
+.user-date-select.hasDatepicker {
+	background: url("../images/cal.png") no-repeat scroll left center #FFFFFF;
+	padding-left: 27px;
+	line-height: 17px;
+}
+.ui-tabs .ui-tabs-nav li {
+	margin: 0 0.2em 3px 0;
+}
+
+.bec_container {
+    display: none;
+}
+#ribbon li {
+    display: inline-block;
+}
+.mobile-menu {
+    background:#666c70;
+    color: #FFFFFF !important;
+    display: none;
+    margin: 3px 0 0;
+    padding: 7px 10px;
+    text-decoration: none;
+}
+.mobile-menu i {
+    float: right;
+}
+.arrow_down {
+    background:url(../images/arrow_down.png) no-repeat 0 3px;
+    width:10px;
+    height:10px;
+}
+.arrow_up {
+    background:url(../images/arrow.png) no-repeat 0 3px;
+    width:10px;
+    height:10px;
+}
+.highlight {
+    background: rgba(255, 255, 255, 0.8) !important;
+    color: #C71B1B;
+    border:1px solid #C71B1B;
+}
+.alertbox {
+    position: absolute;
+    padding-left: 45px;
+    width: 216px;
+    color: #fff;
+    z-index:9999 !important;
+}
+.alertbox div {
+    min-height: 10px;
+    z-index: 9999 !important;
+    width: 200px;
+    font-size:12px;
+    font-family:'Roboto', Open Sans;
+    padding:8px 3px;
+    background: #C71B1B;
+    color:#FFF;
+    text-align:center;
+    border:#fff 1px solid;
+    z-index:9999 !important;
+}
+.loading_window {
+    display:none;
+    position:absolute;
+    z-index:1000;
+    width:500px;
+    height:150px;
+}
+.loading_window_inner {
+    height:73px;
+    /*text-shadow: 1px 1px 3px #c2bcc2;
+    filter: dropshadow(color=#c2bcc2, offx=1, offy=1);*/
+    padding-top:50px;
+    font-size:19px;
+    font-weight:bold;
+    text-align:center;
+}
+.loading_image {
+    margin-top:10px;
+    /*background:url(../images/loading3.gif) no-repeat top  center;*/
+    width:100%;
+    height:50px;
+}
+.disablebg {
+    display:none;
+    background:#000000;
+    position:fixed;
+    _position:absolute;
+    top: 0;
+    left: 0;
+    min-height:100%;
+    height:auto !important;
+    height:100%;
+    width:100%;
+    z-index:198;
+    opacity:0.6;
+}
+
+.morefilters ul li {
+    padding-bottom: 10px;
+}
+
+.remove-this-class {
+    display: inline-block;
+    width: 56px;
+}
+.input-wrapper-date-time-tr {
+    width: 120px!important;
+}
+.input-wrapper-date-time-tr .user-date-select.hasDatepicker {
+    width: 100%;
+}
+.label-bg-common{	
+    background:#d40016;    
+    border:1px solid #d40016;    
+    color: #FFFFFF;
+}
+
+#ui-datepicker-div {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #CCCCCC !important;
+    z-index: 9999 !important;
+    font-size:16px;
+}
+#ui-datepicker-div .ui-widget-header {
+    background: #fff;
+}
+.ui-datepicker .ui-datepicker-title {
+    color: #d40016;
+}
+.ui-datepicker th {
+    color: #d40016;
+    font-weight: 400;
+    line-height: 24px;
+}
+.ui-datepicker-header.ui-widget-header.ui-helper-clearfix.ui-corner-all {
+    border: medium none;
+}
+.ui-datepicker td {
+    line-height: 22px;
+    padding: 0;
+}
+.ui-datepicker-calendar .ui-state-default, .ui-datepicker-calendar .ui-widget-content .ui-state-default, .ui-datepicker-calendar .ui-widget-header .ui-state-default {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #fff;
+    color: #d40016;
+    font-weight: normal;
+    line-height: 24px;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    background: #e1e1e1;
+}
+.ui-autocomplete .ui-corner-all:hover {
+    background: #ffcb00;
+    color: #fff;
+}
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled { 
+	opacity: 0.1;
+}
+.mobile-menu {
+        display: none;
+    }
+/*Common CSS End*/
+
+
+/*Flight CSS Begin*/
+.flight-label {
+	text-align: center;
+	width: 54px;
+}
+.flight-departure, .flight-arrival {
+	width:48%;
+}
+.date-time-block, .flight-passengers, .multi-destination-times, .flight-departure,  .hotel-passengers {
+	padding:0;
+}
+.date-time-block > li {
+	display:inline-block;
+}
+.flight-departure-input, .flight-arrival-input {
+	width:79%;
+}
+.date-time-block > .flight-times, .date-time-block > .flight-times > div {
+	width:48.4%;
+}
+.flight-passenger-container > .flight-passenger-option {
+	display: inline-block;
+	padding-right: 20px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.location-inputs {
+	padding:12px 0;
+}
+.flight-times {
+	padding:0 0 15px;
+}
+.trip-type {
+    line-height: 0;
+}
+.flight-departure > div, .flight-arrival > div, .flight-times > div,  .location-inputs > div, .location-inputs > li, .multi-destination-times > li,  .trip-type > div, .trip-type-options> div, .flight-child-container > li,  .flight-passenger-option > div, .hotel-destination > div {
+	display: inline-block;
+	vertical-align: top;
+}
+.flight-passenger-label {
+	font-size: 12px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding:8px 2px 7px;
+	display:block;
+}
+.flight-passenger-select {
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    display: block;
+    font-size: 12px !important;
+    padding: 5px 5px;
+}
+.flight-child-label > div {
+	display: inline-block;
+	padding-left: 14px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.flight-child-container {
+	padding:10px 0 0;
+	margin-left: 137px;
+}
+.flight-prefix-width {
+	width:19%;   /*used to add prefix width on flight child ages block*/
+}
+.arrow_plu.arrow1, .arrow_plu.arrow2, .arrow_plu.arrow3, .arrow1.arrow_min, .arrow2.arrow_min,  .arrow3.arrow_min {
+	float: right;
+}
+.preffered-airline, .flight-promotion-code {
+	width:25%;
+}
+.preffered-class {
+	width:20%;
+}
+.preffered-currency {
+	width:24%;
+}
+.multi-destination-times > li {
+	width: 168px;
+}
+.flight-arrival div > .flight-passenger-label {
+	width: 55px;
+	text-align: center;
+}
+
+.arrow_plu {
+	background: url("../images/add_loc.png") repeat scroll 0 0 transparent;
+	cursor: pointer;
+	float: left;
+	height: 10px;
+	margin: 5px 0 0;
+	width: 10px;
+}
+.arrow_min {
+	background: url("../images/min_loc.png") repeat scroll 0 0 transparent;
+	cursor: pointer;
+	float: left;
+	height: 10px;
+	margin: 5px 0 0;
+	width: 10px;
+}
+
+
+/*Flight CSS End*/
+
+
+/*Hotel CSS Begin*/
+.hotel-child-count > div, .hotel-passengers li, .hotel-passengers li div, .hotel-passengers > ul,  .inventory-types > ul li, .hotel-price-level > ul li, .hotel-date-times > li, .hotel-date-time-block > li {
+	display: inline-block;
+}
+.hotel-passenger-label {
+	-moz-box-sizing: border-box;
+	display: block;
+	font-size: 12px;
+	padding: 7px 12px;
+}
+.hotel-passenger-label-text {
+	-moz-box-sizing: border-box;
+	color: #d40016;
+	font-weight:500;
+	display: block;
+	font-size: 12px;
+	padding: 8px 12px 6px 0px;
+}
+.hotel-passengers li {
+	margin-right: 10px;
+}
+.hotel-passengers > ul, .inventory-types > ul, .hotel-price-level > ul, .hotel-date-time-block,  .hotel-date-times {
+	padding:0;
+}
+.hotel-price-level {
+	width: 280px;
+}
+.hotel-passenger-select {
+	border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: block;
+    font-size: 12px !important;
+    padding: 4px 5px;
+}
+.hotel-day-select {
+	border: 1px solid #cccccc;
+    box-sizing: border-box;
+    font-size: 12px !important;
+    padding: 4px 5px;
+    width: 100%;
+}
+.hotel-age-field{
+	width:45%;
+}
+.flight-child-label {
+	width: 100%;
+}
+.hotel-morefilters {
+	width: 32%;
+}
+.flight-child-age > div select {
+	margin-right: 2px;
+}
+.hotel-passenger-block > ul {
+	display: inline-block;
+	padding: 0 0 10px;
+}
+
+.user-country-select-hotel, .user-residence-select-hotel {
+	border: 1px solid #CCCCCC;
+	font-size:12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 98%;
+}
+.width-fix-hotels{
+	width:400px;
+}
+.width-night-width-fix {
+    width: 68px !important;
+}
+.hotel-date-times > li {
+	width: 31.3%;
+}
+/*Hotel CSS End*/
+
+
+/*Car CSS Start*/
+
+.car-pick-block, .car-pick-block ul {
+	padding: 7px 0;
+}
+.car-pick-block > li, .car-pick-location > div, .car-drop-location > div, .car-pick-details > li,  .car-drop-details > li {
+	display: inline-block;
+}
+.car-passenger-label {
+	-moz-box-sizing: border-box;
+	display: block;
+	font-size: 12px;
+	padding: 6px 11px;
+}
+.car-pick-location input, .car-pick-location, .car-drop-location input, .car-drop-details, .car-drop-location {
+	width: 100%;
+}
+
+.cars-hidden-options > li {
+	width: 23.7%;
+}
+.user-residence-select-car {
+	border: 1px solid #CCCCCC;
+	font-size:12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 96%;
+}
+.car-loc-wrapper {
+    width: 200px;
+}
+.car-pick-date, .car-drop-date {
+    width: 171px;
+}
+/*Car CSS End*/
+
+
+/*Transfer CSS Begin*/
+
+.transfer-date-time > li {
+    width: 15.6%;
+}
+.transfer-trip-type div, .transfer-pickup-block > ul li, .transfer-pickup-block > ul li div,  .transfer-type-select li, .transfer-passenger-block li div, .transfer-passenger-block li {
+	display: inline-block;
+}
+.transfer-pickup-block > ul, .transfer-type-select, .transfer-passenger-block {
+	padding:0;
+}
+.transfer-passenger-label {
+	-moz-box-sizing: border-box;
+	display: block;
+	font-size: 12px;
+	padding: 6px 12px;
+}
+.transfers-hidden-options div {
+	width:24%;
+}
+.transfer-label-fix{
+    width: 189px;
+}
+.user-residence-select-transfers{
+	border: 1px solid #CCCCCC;
+	font-size:12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 97%;
+}
+.transfer-locations-pick > li {
+    width:31.8%;
+}
+
+/*Transfer CSS End*/
+
+/*Activity CSS Begin*/
+
+.activity-dates-block > li > div > input {
+    width: 134px;
+}
+.activity-passenger-label {
+	-moz-box-sizing: border-box;
+	display: block;
+	font-size: 12px;
+	padding:8px 4px;
+}
+.activity-passenger-block div, .activity-destination-country li, .activity-dates-block li,  .activity-dates-block li div, .activity-passenger-count li, .activity-main-block li {
+	display: inline-block;
+	vertical-align: top;
+}
+.activity-destination-country, .activity-destination-country, .activity-dates-block,  .activity-passenger-count {
+	padding:0;
+}
+.activity-passenger-block {
+	-moz-box-sizing: border-box;
+}
+.activity-passenger-block div {
+	vertical-align: middle !important;
+}
+.activity-program-category {
+	width:24%;
+}
+.activity-preferred-currency {
+	width:24%;
+}
+.activity-passenger-count li {
+	padding-right: 22px;
+}
+.activity-country-select {
+	-moz-box-sizing: border-box;
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding: 4px 5px;
+	width:97%;
+}
+.user-residence-select-activities{
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 97%;
+}
+/*Activity CSS End*/
+
+
+/* Flight + Hotel CSS Begin*/
+.package-passenger-block li, .flight-child-age > div {
+	display: inline-block;
+}
+.package-passenger-block li {
+	vertical-align: inherit;
+}
+.holidays-hidden-options li {
+	width:23.3%;
+}
+.user-residence-select-holidays{
+	border: 1px solid #CCCCCC;
+	font-size:12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 95%;
+}
+/*Flight + Hotel CSS End*/
+
+/* Fixed Packages CSS Begin*/
+.fp-travel-type > li, .fp-flight-alterations > div, .fp-flight-block .fp-flight-alterations,  .fp-flight-block div, .fp-other-options > li {
+	display:inline-block;
+}
+.fp-passenger-label {
+	-moz-box-sizing: border-box;
+	display: block;
+	font-size: 12px;
+	padding: 6px 3px;
+	text-align: center;
+}
+.fp-other-options > li {
+	width: 24%;
+}
+.fp-other-options select {
+	width: 96%;
+}
+
+.user-residence-select-packages{
+	border: 1px solid #CCCCCC;
+	font-size: 12px !important;
+	padding:4px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 97%;
+}
+
+/* Fixed Packages CSS End*/
+
+/*Mobile Css Begin*/
+@media only screen and (max-width : 480px) /* Landscape */ {
+	.mobile-menu {
+	    display: block;
+	}	
+	.icons li a span {
+	    display: none;
+	}
+	 #ribbon li {
+        display: block;
+        line-height: 26px;
+        width: 48%;
+        margin: 1px;
+        cursor: pointer;
+    }
+    .ui-tabs .ui-tabs-nav li a {
+        padding: 0;
+        width: 100%;
+    }    
+	 .row1, .row2, .row3, .row4, .row5, .row6, .row7, .row8, .row9, .row10, .flight-departure > div,  .flight-arrival > div, .flight-departure, .flight-arrival {
+	 width:100%;
+	}
+	 .preffered-airline, .preffered-class, .preffered-currency, .flight-promotion-code,  .flight-child-age div .flight-passenger-select {
+	 width:49%;
+	}
+	 .bec_container_div {
+	 padding: 0 7px;
+	}
+	 .search-button {
+	 float:none;
+	}
+	 .flight-passenger-container div > .flight-passenger-label {
+	 padding: 8px 3px 5px;
+	 width: 134px;
+	}
+	 .flight-passenger-container > .flight-passenger-option > div {
+	 padding:0;
+	}
+	 .flight-passenger-select {
+	 width:120px;
+	}
+	 .date-time-block > .flight-times {
+	 width: 75%;
+	}
+	 .flight-prefix-width {
+	 width: 2%;
+	}
+	 .flight-departure div > .flight-passenger-label, .flight-arrival div > .flight-passenger-label {
+	 width: 55px;
+	}
+	    
+	.hotel-date-times > li {
+	    width: 48.3%;
+	}
+	    .car-pick-date, .car-pick-time, .car-drop-date, .car-drop-time, .hotel-morefilters,
+	    .transfer-locations-pick > li, .activities-hidden-block li, .activity-dates-block > li,
+	    .fp-other-options > li, .packages-hidden-options > li, .cars-hidden-options > li{
+	    width:49%;
+	}
+	 
+	 .cars-hidden-options > li{
+	    width:32%;
+	}
+	    .transfer-date-time > li, .transfers-hidden-options > div {
+	    width: 100%;
+	}
+	    
+	    .transfer-date-time > li {
+	    width: 46%;
+	}
+	    
+	.activity-passenger-count li {
+	    padding-right: 6px;
+	}
+	    .width100{
+	        width:100% !important;
+	    }
+	    
+	    .activity-passenger-label {
+	    padding: 8px 7px 6px;
+	}
+	    .holidays-hidden-options li {
+	    width: 47%;
+	}
+	    .fp-passenger-label {
+	    width: 35%;
+	}
+    
+}
+
+@media only screen and (max-width : 320px) /* Portrait */ {
+	.mobile-menu {
+	    display: block;
+	}
+	.icons li a span {
+        display: none;
+    }
+    #ribbon li {
+        display: block;
+        line-height: 26px;
+        width: 48%;
+        margin: 1px;
+        cursor: pointer;
+	}
+	.ui-tabs .ui-tabs-nav li a {
+	    padding: 0;
+	    width: 100%;
+	}
+	 .row1, .row2, .row3, .row4, .row5, .row6, .row7, .row8, .row9, .row10, .flight-departure > div,  .flight-arrival > div, .flight-departure, .flight-arrival, .date-time-block > .flight-times {
+	 width:100%;
+	}
+	 .preffered-airline, .preffered-class, .preffered-currency, .flight-promotion-code {
+	 width:49%;
+	}
+	 .bec_container_div {
+	 padding: 0 6px;
+	}
+	 .search-button {
+	 float:none;
+	}
+	 .flight-passenger-container div > .flight-passenger-label {
+	 padding: 8px 3px 5px;
+	 width: 134px;
+	}
+	 .flight-passenger-container > .flight-passenger-option {
+	 padding:0;
+	}
+	 .flight-passenger-select {
+	 width:120px;
+	}
+	 .date-time-block > .flight-times > div {
+	 width: 49%;
+	}
+	 .user-time-select, .user-date-select {
+	 width: 86%;
+	}
+	 .flight-departure div > .flight-passenger-label, .flight-arrival div > .flight-passenger-label {
+	 width: 55px;
+	}
+	 .multi-destination-times > li {
+	 width: 121px;
+	}
+	 .flight-child-age div .flight-passenger-select {
+	 width: 49px;
+	}
+	 .flight-prefix-width {
+	 padding-bottom: 5px;
+	 width: 0;
+	}
+	.hotel-date-times > li {
+	    width: 49%;
+	}
+	.hotel-room-count{
+	    display: inline-block;
+	    width: 100%;
+	}
+	
+	    
+	.car-pick-date, .car-pick-time, .car-drop-date, .car-drop-time, .hotel-morefilters,
+	        .transfer-locations-pick > li, .activities-hidden-block li, .activity-dates-block > li,
+	        .fp-other-options > li, .packages-hidden-options > li, .cars-hidden-options > li{
+	    width:49%;
+	}
+	    .transfer-date-time > li, .transfers-hidden-options > div {
+	    width: 100%;
+	}
+	    
+	    .transfer-date-time > li {
+	    width: 46%;
+	}
+	    
+	    .width100{
+	        width:100% !important;;
+	    }
+	    
+	.activity-passenger-count li {
+	    padding-right: 6px;
+	}
+	    
+	.activity-passenger-label {
+	    padding: 8px 7px 6px;
+	}
+	.holidays-hidden-options li {
+	    width: 47%;
+	}
+	    
+	.fp-passenger-label {
+	    width: 35%;
+	}
+}
+.show_filter a, .hide_filter a {
+    color: #fff !important;
+}
+#ribbon li {
+    border: 0 none;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 -2px 6px #bcbcbc;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    height: 57px;
+    padding: 0 17px;
+    text-align: center;
+}
+.chinese-language-bec > li {
+    width: 116px;
+}
+.icons.chinese-language-bec > li > a {
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+    cursor: pointer;
+}
+#promotionCodeDiv_A {
+    width: 22%;
+}
+.holiday-pax-container > ul {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.holiday-pax-container {
+    margin-top: 30px;
+}
+
+.holiday-pax-container .flight-passenger-container > .option-sub-label {
+    margin-top: -4px;
+    padding-bottom: 4px;
+}
+.package-passenger-block.holiday-pax-passeng {
+    margin-top: -36px;
+}
+.car-pick-details .car-pick-date, .car-drop-details .car-drop-date {
+    width: 35%;
+}
+.car-pick-date .user-options-select, .car-drop-date .user-options-select {
+    padding-bottom: 3px;
+    padding-top: 4px;
+}
